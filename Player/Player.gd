@@ -46,7 +46,7 @@ func update_collision_shapes():
 		$CollisionPolygon2D.position = Vector2(0, -156) * $Sprite.scale # So the centre of enlargement is at the bottom of the middle of the sprite.
 
 func movement(delta):
-	#velocity.y += GRAVITY * delta
+	velocity.y += GRAVITY * delta
 	
 	velocity = move_and_slide(velocity)
 
