@@ -38,7 +38,7 @@ func input():
 	velocity.x = input_vel_x * speed
 
 func update_collision_shapes():
-	if Vector2(stepify($Sprite.scale.x, 0.01), stepify($Sprite.scale.y, 0.01)) != scale_dir:
+	if Vector2(stepify($Sprite.scale.x, 0.01), stepify($Sprite.scale.y, 0.01)) != scale_dir: # So it's not unnecessarily run.
 		for i in range(len($CollisionPolygon2D.polygon)):
 			$CollisionPolygon2D.polygon[i].x = original_polygon[i].x * $Sprite.scale.x
 			$CollisionPolygon2D.polygon[i].y = original_polygon[i].y * $Sprite.scale.y
