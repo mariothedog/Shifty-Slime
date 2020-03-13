@@ -11,12 +11,12 @@ extents = Vector2( 640, 32 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 714.228, 450.164 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2( 605.834, 553.237 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+[node name="Sprite" type="Sprite" parent="Ground"]
 scale = Vector2( 20, 1 )
 texture = ExtResource( 2 )
