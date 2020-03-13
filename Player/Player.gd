@@ -25,7 +25,16 @@ func input():
 	if Input.is_action_pressed("shrink"):
 		scale_dir += Vector2(0.3, -0.5)
 	
-	$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
+	var colliding_with_object_up = false
+	
+	for body in $"Top Area2D".get_overlapping_bodies():
+		if body.is_in_group("object"):
+			colliding_with_object_up = true
+	
+	if not (colliding_with_object_up and scale_dir.y > $Sprite.scale.y):
+		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
+		$"Top Area2D/CollisionShape2D".shape.extents.x = 160 * $Sprite.scale.x
+		$"Top Area2D".position = Vector2(0, -300) * $Sprite.scale
 	
 	# Moving
 	var input_vel_x = 0
