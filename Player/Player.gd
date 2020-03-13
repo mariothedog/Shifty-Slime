@@ -13,7 +13,7 @@ onready var original_polygon = $CollisionPolygon2D.polygon
 func _physics_process(delta):
 	scale_dir = Vector2(1, 1)
 	input()
-	update_collision_shapes()
+	update_collision_shape()
 	movement(delta)
 	animate()
 
@@ -37,7 +37,7 @@ func input():
 	
 	velocity.x = input_vel_x * speed
 
-func update_collision_shapes():
+func update_collision_shape():
 	if Vector2(stepify($Sprite.scale.x, 0.01), stepify($Sprite.scale.y, 0.01)) != scale_dir: # So it's not unnecessarily run.
 		for i in range(len($CollisionPolygon2D.polygon)):
 			$CollisionPolygon2D.polygon[i].x = original_polygon[i].x * $Sprite.scale.x
