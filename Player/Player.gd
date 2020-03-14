@@ -69,7 +69,7 @@ func input():
 		else:
 			rotation_degrees = lerp(rotation_degrees, moving_rotation, 0.15)
 		
-		$Eyes.position.x = lerp($Eyes.position.x, eye_default_pos.x * scale_dir.x, 0.2)
+		$Eyes.position.x = lerp($Eyes.position.x, eye_default_pos.x * $Sprite.scale.x, 0.2)
 	
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
@@ -81,7 +81,7 @@ func input():
 		else:
 			rotation_degrees = lerp(rotation_degrees, -moving_rotation, 0.15)
 		
-		$Eyes.position.x = lerp($Eyes.position.x, -eye_default_pos.x * scale_dir.x, 0.2)
+		$Eyes.position.x = lerp($Eyes.position.x, -eye_default_pos.x * $Sprite.scale.x, 0.2)
 	
 	if input_vel_x == 0:
 		rotation_degrees = lerp(rotation_degrees, 0, 0.15)
