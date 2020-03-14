@@ -31,7 +31,7 @@ polygon = PoolVector2Array( -61.0623, 16.7726, -43.2528, 7.52136, -20.0662, 0.45
 position = Vector2( 0, -200 )
 
 [node name="Left Eye Base" type="Sprite" parent="Eyes"]
-position = Vector2( -60, 0 )
+position = Vector2( -50, 0 )
 texture = ExtResource( 3 )
 
 [node name="Pupil" type="Sprite" parent="Eyes/Left Eye Base"]
@@ -39,7 +39,7 @@ texture = ExtResource( 4 )
 offset = Vector2( 20, 0 )
 
 [node name="Right Eye Base" type="Sprite" parent="Eyes"]
-position = Vector2( 60, 0 )
+position = Vector2( 50, 0 )
 texture = ExtResource( 3 )
 
 [node name="Pupil" type="Sprite" parent="Eyes/Right Eye Base"]
