@@ -1,11 +1,11 @@
 extends KinematicBody2D
 
 export var speed = 300
-export var jump_speed = 600
+export var jump_speed = 700
 export var expanding_scale = 0.65
 export var moving_rotation = 5
 
-const GRAVITY = 600
+const GRAVITY = 700
 
 var velocity = Vector2()
 
