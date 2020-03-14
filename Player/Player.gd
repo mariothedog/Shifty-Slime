@@ -70,7 +70,6 @@ func input():
 	if Input.is_action_pressed("move_right"):
 		input_vel_x += 1
 		
-		#rotation_degrees = lerp(rotation_degrees, moving_rotation, 0.15)
 		if scale_dir.x > 1:
 			rotation_degrees = lerp(rotation_degrees, moving_rotation_short, 0.15)
 		elif scale_dir.x < 1:
@@ -83,7 +82,6 @@ func input():
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
 		
-		#rotation_degrees = lerp(rotation_degrees, -moving_rotation, 0.15)
 		if scale_dir.x > 1:
 			rotation_degrees = lerp(rotation_degrees, -moving_rotation_short, 0.15)
 		elif scale_dir.x < 1:
