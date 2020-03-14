@@ -1,9 +1,9 @@
 extends KinematicBody2D
 
 export var speed = 300
-export var jump_speed = 400
+export var jump_speed = 600
 
-const GRAVITY = 400
+const GRAVITY = 600
 
 var velocity = Vector2()
 
@@ -87,12 +87,12 @@ func update_collision_shapes():
 		$"Top Area2D".position = Vector2(0, -225) * $Sprite.scale
 
 func movement(delta):
-	velocity.y += GRAVITY * delta
+	velocity.y += GRAVITY * (1 / $Sprite.scale.x) * delta
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	if is_on_floor() and jump:
-		velocity.y = -jump_speed
+		velocity.y = -jump_speed * $Sprite.scale.y
 
 func animate():
 	pass
