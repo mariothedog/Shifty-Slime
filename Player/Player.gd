@@ -14,6 +14,11 @@ var jump = false
 onready var original_polygon = $CollisionPolygon2D.polygon
 onready var original_polygon_top = $"Top Area2D/CollisionPolygon2D".polygon
 
+onready var collision_polygon_default_pos = $CollisionPolygon2D.position
+onready var top_area_default_pos = $"Top Area2D".position
+onready var eyes_default_pos = $Eyes.position
+onready var eye_default_pos = $"Eyes/Right Eye Base".position
+
 func _physics_process(delta):
 	scale_dir = Vector2(1, 1)
 	input()
@@ -24,10 +29,10 @@ func _physics_process(delta):
 func input():
 	# Growing
 	if Input.is_action_pressed("expand_up"):
-		scale_dir += Vector2(-0.3, 0.5)
+		scale_dir += Vector2(-0.5, 0.5)
 	
 	if Input.is_action_pressed("shrink"):
-		scale_dir += Vector2(0.3, -0.5)
+		scale_dir += Vector2(0.5, -0.5)
 	
 	var colliding_with_object_up = false
 	
@@ -40,7 +45,7 @@ func input():
 		
 		$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * scale_dir.y, 0.15)
 		
-		$Eyes.position.y = -200 * $Sprite.scale.y
+		$Eyes.position.y = eyes_default_pos.y * $Sprite.scale.y
 	
 	# Moving
 	var input_vel_x = 0
@@ -49,14 +54,14 @@ func input():
 		
 		rotation_degrees = lerp(rotation_degrees, 5, 0.15)
 		
-		$Eyes.position.x = lerp($Eyes.position.x, 60 * scale_dir.x, 0.2)
+		$Eyes.position.x = lerp($Eyes.position.x, eye_default_pos.x * scale_dir.x, 0.2)
 	
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
 		
 		rotation_degrees = lerp(rotation_degrees, -5, 0.15)
 		
-		$Eyes.position.x = lerp($Eyes.position.x, -60 * scale_dir.x, 0.2)
+		$Eyes.position.x = lerp($Eyes.position.x, -eye_default_pos.x * scale_dir.x, 0.2)
 	
 	if input_vel_x == 0:
 		rotation_degrees = lerp(rotation_degrees, 0, 0.15)
@@ -75,13 +80,13 @@ func update_collision_shapes():
 			$CollisionPolygon2D.polygon[i].x = original_polygon[i].x * $Sprite.scale.x
 			$CollisionPolygon2D.polygon[i].y = original_polygon[i].y * $Sprite.scale.y
 		
-		$CollisionPolygon2D.position = Vector2(0, -156) * $Sprite.scale # So the centre of enlargement is at the bottom of the middle of the sprite.
+		$CollisionPolygon2D.position = collision_polygon_default_pos * $Sprite.scale # So the centre of enlargement is at the bottom of the middle of the sprite.
 		
 		for i in range(len($"Top Area2D/CollisionPolygon2D".polygon)):
 			$"Top Area2D/CollisionPolygon2D".polygon[i].x = original_polygon_top[i].x * $Sprite.scale.x
 			$"Top Area2D/CollisionPolygon2D".polygon[i].y = original_polygon_top[i].y * $Sprite.scale.y
 		
-		$"Top Area2D".position = Vector2(0, -225) * $Sprite.scale
+		$"Top Area2D".position = top_area_default_pos * $Sprite.scale
 
 func movement(delta):
 	velocity.y += GRAVITY * (1 / $Sprite.scale.x) * delta
