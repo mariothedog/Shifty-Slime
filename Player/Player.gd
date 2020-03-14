@@ -37,6 +37,8 @@ func input():
 	
 	if not (colliding_with_object_up and scale_dir.y > $Sprite.scale.y):
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
+		
+		$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * scale_dir.y, 0.15)
 	
 	# Moving
 	var input_vel_x = 0
