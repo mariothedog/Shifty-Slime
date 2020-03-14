@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 export var speed = 300
-export var jump_speed = 700
+export var jump_speed = 400
 export var expanding_scale = 0.65
 export var moving_rotation = 5
 
@@ -12,6 +12,7 @@ var velocity = Vector2()
 var scale_dir = Vector2(1, 1)
 
 var jump = false
+var jump_held = false
 
 onready var original_polygon = $CollisionPolygon2D.polygon
 onready var original_polygon_top = $"Top Area2D/CollisionPolygon2D".polygon
@@ -37,9 +38,6 @@ func input():
 	if Input.is_action_pressed("expand_up"):
 		scale_dir += Vector2(-expanding_scale, expanding_scale)
 	
-	if Input.is_action_pressed("shrink"):
-		scale_dir += Vector2(expanding_scale, -expanding_scale)
-	
 	var colliding_with_object_up = false
 	for body in $"Top Area2D".get_overlapping_bodies():
 		if body.is_in_group("object"):
@@ -50,12 +48,14 @@ func input():
 		if body.is_in_group("object"):
 			colliding_with_object_side = true
 	
-	if not (colliding_with_object_up and scale_dir.y > $Sprite.scale.y or colliding_with_object_side and scale_dir.x > $Sprite.scale.x):
+	if (not (colliding_with_object_up and scale_dir.y > $Sprite.scale.y or
+	colliding_with_object_side and scale_dir.x > $Sprite.scale.x) and
+	not jump_held):
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 		
-		$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * scale_dir.y, 0.15)
-		
-		$Eyes.position.y = eyes_default_pos.y * $Sprite.scale.y
+	$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * $Sprite.scale.y, 0.15)
+	
+	$Eyes.position.y = eyes_default_pos.y * $Sprite.scale.y
 	
 	# Moving
 	var input_vel_x = 0
@@ -92,10 +92,16 @@ func input():
 	
 	jump = false
 	if Input.is_action_pressed("jump"):
+		jump_held = true
+		#if Vector2($Sprite.scale)
+		$Sprite.scale = lerp($Sprite.scale, Vector2(1 + expanding_scale, 1 - expanding_scale), 0.08)
+	
+	if Input.is_action_just_released("jump"):
 		jump = true
+		jump_held = false
 
 func update_collision_shapes():
-	if Vector2(stepify($Sprite.scale.x, 0.01), stepify($Sprite.scale.y, 0.01)) != scale_dir: # So it's not unnecessarily run.
+	if stepify_vector($Sprite.scale, 0.01) != scale_dir: # So it's not unnecessarily run.
 		for i in range(len($CollisionPolygon2D.polygon)):
 			$CollisionPolygon2D.polygon[i].x = original_polygon[i].x * $Sprite.scale.x
 			$CollisionPolygon2D.polygon[i].y = original_polygon[i].y * $Sprite.scale.y
@@ -126,11 +132,11 @@ func movement(delta):
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	if is_on_floor() and jump:
-		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale, Vector2($Sprite.scale.x + 0.3, $Sprite.scale.y - 0.15), 0.05)
-		$Tween.start()
-		yield($Tween, "tween_completed")
-		velocity.y = -jump_speed * $Sprite.scale.y
+		velocity.y = -jump_speed * pow($Sprite.scale.x, 1.8)
 
 func animate():
 	$"Eyes/Left Eye Base/Pupil".look_at(get_global_mouse_position())
 	$"Eyes/Right Eye Base/Pupil".look_at(get_global_mouse_position())
+	
+func stepify_vector(vector, step):
+	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
