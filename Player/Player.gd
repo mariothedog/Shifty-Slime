@@ -126,6 +126,9 @@ func movement(delta):
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	if is_on_floor() and jump:
+		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale, Vector2($Sprite.scale.x + 0.3, $Sprite.scale.y - 0.15), 0.05)
+		$Tween.start()
+		yield($Tween, "tween_completed")
 		velocity.y = -jump_speed * $Sprite.scale.y
 
 func animate():

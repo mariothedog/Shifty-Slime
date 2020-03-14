@@ -56,3 +56,5 @@ texture = ExtResource( 3 )
 [node name="Pupil" type="Sprite" parent="Eyes/Right Eye Base"]
 texture = ExtResource( 4 )
 offset = Vector2( 20, 0 )
+
+[node name="Tween" type="Tween" parent="."]
