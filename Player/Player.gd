@@ -38,6 +38,9 @@ func input():
 	if Input.is_action_pressed("expand_up"):
 		scale_dir += Vector2(-expanding_scale, expanding_scale)
 	
+	if Input.is_action_pressed("shrink"):
+		scale_dir += Vector2(expanding_scale, -expanding_scale)
+	
 	var colliding_with_object_up = false
 	for body in $"Top Area2D".get_overlapping_bodies():
 		if body.is_in_group("object"):
@@ -96,8 +99,9 @@ func input():
 		$Sprite.scale = lerp($Sprite.scale, Vector2(1 + expanding_scale, 1 - expanding_scale), 0.08)
 	
 	if Input.is_action_just_released("jump"):
-		jump = true
 		jump_held = false
+		if not Input.is_action_pressed("shrink"):
+			jump = true
 
 func update_collision_shapes():
 	if stepify_vector($Sprite.scale, 0.01) != scale_dir: # So it's not unnecessarily run.
