@@ -34,12 +34,14 @@ position = Vector2( 0, -200 )
 position = Vector2( -60, 0 )
 texture = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="Eyes/Left Eye Base"]
+[node name="Pupil" type="Sprite" parent="Eyes/Left Eye Base"]
 texture = ExtResource( 4 )
+offset = Vector2( 20, 0 )
 
 [node name="Right Eye Base" type="Sprite" parent="Eyes"]
 position = Vector2( 60, 0 )
 texture = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="Eyes/Right Eye Base"]
+[node name="Pupil" type="Sprite" parent="Eyes/Right Eye Base"]
 texture = ExtResource( 4 )
+offset = Vector2( 20, 0 )

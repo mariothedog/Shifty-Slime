@@ -63,6 +63,9 @@ func input():
 		
 		$Eyes.position.x = lerp($Eyes.position.x, 0, 0.2)
 	
+	$"Eyes/Left Eye Base/Pupil".look_at(get_global_mouse_position())
+	$"Eyes/Right Eye Base/Pupil".look_at(get_global_mouse_position())
+	
 	velocity.x = input_vel_x * speed
 	
 	jump = false
