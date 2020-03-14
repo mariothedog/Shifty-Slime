@@ -3,9 +3,11 @@ extends KinematicBody2D
 export var speed = 300
 export var jump_speed = 400
 export var expanding_scale = 0.65
-export var moving_rotation = 5
+export var moving_rotation_normal = 3
+export var moving_rotation_short = 0.5
+export var moving_rotation_tall = 6
 
-const GRAVITY = 700
+const GRAVITY = 1200
 
 var velocity = Vector2()
 
@@ -25,6 +27,9 @@ onready var side_area_right_default_pos = $"Side Area2D/Right".position
 onready var side_area_left_default_pos = $"Side Area2D/Left".position
 onready var eyes_default_pos = $Eyes.position
 onready var eye_default_pos = $"Eyes/Right Eye Base".position
+
+func _ready():
+	update_raycasts()
 
 func _physics_process(delta):
 	scale_dir = Vector2(1, 1)
@@ -55,7 +60,7 @@ func input():
 	colliding_with_object_side and scale_dir.x > $Sprite.scale.x) and
 	not jump_held):
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
-		
+	
 	$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * $Sprite.scale.y, 0.15)
 	
 	$Eyes.position.y = eyes_default_pos.y * $Sprite.scale.y
@@ -65,24 +70,26 @@ func input():
 	if Input.is_action_pressed("move_right"):
 		input_vel_x += 1
 		
+		#rotation_degrees = lerp(rotation_degrees, moving_rotation, 0.15)
 		if scale_dir.x > 1:
-			rotation_degrees = lerp(rotation_degrees, moving_rotation - 6 * (1 / scale_dir.x), 0.15)
+			rotation_degrees = lerp(rotation_degrees, moving_rotation_short, 0.15)
 		elif scale_dir.x < 1:
-			rotation_degrees = lerp(rotation_degrees, moving_rotation + 0.5 * (1 / scale_dir.x), 0.15)
+			rotation_degrees = lerp(rotation_degrees, moving_rotation_tall, 0.15)
 		else:
-			rotation_degrees = lerp(rotation_degrees, moving_rotation, 0.15)
+			rotation_degrees = lerp(rotation_degrees, moving_rotation_normal, 0.15)
 		
 		$Eyes.position.x = lerp($Eyes.position.x, eye_default_pos.x * $Sprite.scale.x, 0.2)
 	
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
 		
+		#rotation_degrees = lerp(rotation_degrees, -moving_rotation, 0.15)
 		if scale_dir.x > 1:
-			rotation_degrees = lerp(rotation_degrees, -(moving_rotation - 6 * (1 / scale_dir.x)), 0.15)
+			rotation_degrees = lerp(rotation_degrees, -moving_rotation_short, 0.15)
 		elif scale_dir.x < 1:
-			rotation_degrees = lerp(rotation_degrees, -(moving_rotation + 0.5 * (1 / scale_dir.x)), 0.15)
+			rotation_degrees = lerp(rotation_degrees, -moving_rotation_tall, 0.15)
 		else:
-			rotation_degrees = lerp(rotation_degrees, -moving_rotation, 0.15)
+			rotation_degrees = lerp(rotation_degrees, -moving_rotation_normal, 0.15)
 		
 		$Eyes.position.x = lerp($Eyes.position.x, -eye_default_pos.x * $Sprite.scale.x, 0.2)
 	
@@ -128,13 +135,20 @@ func update_collision_shapes():
 			$"Side Area2D/Left".polygon[i].y = original_polygon_left[i].y * $Sprite.scale.y
 		
 		$"Side Area2D/Left".position = side_area_left_default_pos * $Sprite.scale
+		
+		update_raycasts()
 
 func movement(delta):
 	velocity.y += GRAVITY * (1 / $Sprite.scale.x) * delta
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-	if is_on_floor() and jump:
+	var is_touching_floor = false
+	for raycast in $"Floor Detector".get_children():
+		if raycast.is_colliding():
+			is_touching_floor = true
+	
+	if is_touching_floor and jump:
 		velocity.y = -jump_speed * pow($Sprite.scale.x, 1.8)
 
 func animate():
@@ -143,3 +157,21 @@ func animate():
 	
 func stepify_vector(vector, step):
 	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
+
+func update_raycasts():
+	for raycast in $"Floor Detector".get_children():
+			raycast.enabled = true
+	
+	if $Sprite.scale.x <= 1.2:
+		$"Floor Detector/RayCast2D6".enabled = false
+		$"Floor Detector/RayCast2D7".enabled = false
+		$"Floor Detector/RayCast2D8".enabled = false
+		$"Floor Detector/RayCast2D9".enabled = false
+	
+	if $Sprite.scale.x <= 0.7:
+		$"Floor Detector/RayCast2D4".enabled = false
+		$"Floor Detector/RayCast2D5".enabled = false
+	
+	if $Sprite.scale.x <= 0.6:
+		$"Floor Detector/RayCast2D2".enabled = false
+		$"Floor Detector/RayCast2D3".enabled = false
