@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 export var speed = 300
 export var jump_speed = 600
+export var expanding_scale = 0.65
+export var moving_rotation = 5
 
 const GRAVITY = 600
 
@@ -29,10 +31,10 @@ func _physics_process(delta):
 func input():
 	# Growing
 	if Input.is_action_pressed("expand_up"):
-		scale_dir += Vector2(-0.5, 0.5)
+		scale_dir += Vector2(-expanding_scale, expanding_scale)
 	
 	if Input.is_action_pressed("shrink"):
-		scale_dir += Vector2(0.5, -0.5)
+		scale_dir += Vector2(expanding_scale, -expanding_scale)
 	
 	var colliding_with_object_up = false
 	
@@ -52,14 +54,24 @@ func input():
 	if Input.is_action_pressed("move_right"):
 		input_vel_x += 1
 		
-		rotation_degrees = lerp(rotation_degrees, 5, 0.15)
+		if scale_dir.x > 1:
+			rotation_degrees = lerp(rotation_degrees, moving_rotation - 6 * (1 / scale_dir.x), 0.15)
+		elif scale_dir.x < 1:
+			rotation_degrees = lerp(rotation_degrees, moving_rotation + 0.5 * (1 / scale_dir.x), 0.15)
+		else:
+			rotation_degrees = lerp(rotation_degrees, moving_rotation, 0.15)
 		
 		$Eyes.position.x = lerp($Eyes.position.x, eye_default_pos.x * scale_dir.x, 0.2)
 	
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
 		
-		rotation_degrees = lerp(rotation_degrees, -5, 0.15)
+		if scale_dir.x > 1:
+			rotation_degrees = lerp(rotation_degrees, -(moving_rotation - 6 * (1 / scale_dir.x)), 0.15)
+		elif scale_dir.x < 1:
+			rotation_degrees = lerp(rotation_degrees, -(moving_rotation + 0.5 * (1 / scale_dir.x)), 0.15)
+		else:
+			rotation_degrees = lerp(rotation_degrees, -moving_rotation, 0.15)
 		
 		$Eyes.position.x = lerp($Eyes.position.x, -eye_default_pos.x * scale_dir.x, 0.2)
 	
