@@ -15,9 +15,13 @@ var jump = false
 
 onready var original_polygon = $CollisionPolygon2D.polygon
 onready var original_polygon_top = $"Top Area2D/CollisionPolygon2D".polygon
+onready var original_polygon_right = $"Side Area2D/Right".polygon
+onready var original_polygon_left = $"Side Area2D/Left".polygon
 
 onready var collision_polygon_default_pos = $CollisionPolygon2D.position
 onready var top_area_default_pos = $"Top Area2D".position
+onready var side_area_right_default_pos = $"Side Area2D/Right".position
+onready var side_area_left_default_pos = $"Side Area2D/Left".position
 onready var eyes_default_pos = $Eyes.position
 onready var eye_default_pos = $"Eyes/Right Eye Base".position
 
@@ -37,12 +41,16 @@ func input():
 		scale_dir += Vector2(expanding_scale, -expanding_scale)
 	
 	var colliding_with_object_up = false
-	
 	for body in $"Top Area2D".get_overlapping_bodies():
 		if body.is_in_group("object"):
 			colliding_with_object_up = true
 	
-	if not (colliding_with_object_up and scale_dir.y > $Sprite.scale.y):
+	var colliding_with_object_side = false
+	for body in $"Side Area2D".get_overlapping_bodies():
+		if body.is_in_group("object"):
+			colliding_with_object_side = true
+	
+	if not (colliding_with_object_up and scale_dir.y > $Sprite.scale.y or colliding_with_object_side and scale_dir.x > $Sprite.scale.x):
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 		
 		$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * scale_dir.y, 0.15)
@@ -99,6 +107,18 @@ func update_collision_shapes():
 			$"Top Area2D/CollisionPolygon2D".polygon[i].y = original_polygon_top[i].y * $Sprite.scale.y
 		
 		$"Top Area2D".position = top_area_default_pos * $Sprite.scale
+		
+		for i in range(len($"Side Area2D/Right".polygon)):
+			$"Side Area2D/Right".polygon[i].x = original_polygon_right[i].x * $Sprite.scale.x
+			$"Side Area2D/Right".polygon[i].y = original_polygon_right[i].y * $Sprite.scale.y
+		
+		$"Side Area2D/Right".position = side_area_right_default_pos * $Sprite.scale
+		
+		for i in range(len($"Side Area2D/Left".polygon)):
+			$"Side Area2D/Left".polygon[i].x = original_polygon_left[i].x * $Sprite.scale.x
+			$"Side Area2D/Left".polygon[i].y = original_polygon_left[i].y * $Sprite.scale.y
+		
+		$"Side Area2D/Left".position = side_area_left_default_pos * $Sprite.scale
 
 func movement(delta):
 	velocity.y += GRAVITY * (1 / $Sprite.scale.x) * delta

@@ -28,6 +28,16 @@ position = Vector2( 0, -144 )
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Top Area2D"]
 polygon = PoolVector2Array( -61.0623, 16.7726, -43.2528, 7.52136, -20.0662, 0.459991, 3.97335, -1.6864, 31.8764, 2.60638, 48.8329, 8.61629, 70.7261, 19.7775 )
 
+[node name="Side Area2D" type="Area2D" parent="."]
+
+[node name="Right" type="CollisionPolygon2D" parent="Side Area2D"]
+position = Vector2( 130, -130 )
+polygon = PoolVector2Array( -93.6306, 22.3178, -58.5919, 12.9741, -47.7883, 31.0775, -37.2767, 50.3488, -35.5247, 67.5761, -34.3793, 94.2125, -36.4874, 108.179, -79.1778, 104.49 )
+
+[node name="Left" type="CollisionPolygon2D" parent="Side Area2D"]
+position = Vector2( -35, -130 )
+polygon = PoolVector2Array( 0.999916, 22.3178, -38.4187, 10.6382, -50.3902, 37.2092, -55.646, 56.1886, -57.69, 74.8759, -57.0059, 92.8949, -51.999, 108.443, -4.8288, 101.591 )
+
 [node name="Eyes" type="Node2D" parent="."]
 position = Vector2( 0, -119 )
 
