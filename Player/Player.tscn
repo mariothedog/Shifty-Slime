@@ -1,10 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Player.png" type="Texture" id=2]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 160, 10 )
 
 [node name="Player" type="KinematicBody2D"]
 z_index = 1
@@ -25,5 +22,5 @@ polygon = PoolVector2Array( 35.5252, -138.485, 91.9929, -129.758, 139.22, -113.3
 [node name="Top Area2D" type="Area2D" parent="."]
 position = Vector2( 0, -300 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Top Area2D"]
-shape = SubResource( 1 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Top Area2D"]
+polygon = PoolVector2Array( -153.499, 11.0312, -136.028, 2.94287, -116.293, -4.82196, -94.9395, -9.02789, -71.3215, -11.6162, -48.9977, -11.6162, -21.1738, -12.2632, 5.0325, -11.2926, 38.68, -10.9691, 79.4453, -6.11609, 113.093, 3.5899, 138.791, 14.1088, 165.128, 30.0927 )
