@@ -93,7 +93,6 @@ func input():
 	jump = false
 	if Input.is_action_pressed("jump"):
 		jump_held = true
-		#if Vector2($Sprite.scale)
 		$Sprite.scale = lerp($Sprite.scale, Vector2(1 + expanding_scale, 1 - expanding_scale), 0.08)
 	
 	if Input.is_action_just_released("jump"):
