@@ -39,6 +39,8 @@ func input():
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 		
 		$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * scale_dir.y, 0.15)
+		
+		$Eyes.position.y = -200 * $Sprite.scale.y
 	
 	# Moving
 	var input_vel_x = 0
@@ -46,14 +48,20 @@ func input():
 		input_vel_x += 1
 		
 		rotation_degrees = lerp(rotation_degrees, 5, 0.15)
+		
+		$Eyes.position.x = lerp($Eyes.position.x, 50, 0.2)
 	
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
 		
 		rotation_degrees = lerp(rotation_degrees, -5, 0.15)
+		
+		$Eyes.position.x = lerp($Eyes.position.x, -50, 0.2)
 	
 	if input_vel_x == 0:
 		rotation_degrees = lerp(rotation_degrees, 0, 0.15)
+		
+		$Eyes.position.x = lerp($Eyes.position.x, 0, 0.2)
 	
 	velocity.x = input_vel_x * speed
 	

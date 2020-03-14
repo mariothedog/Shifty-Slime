@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
-[ext_resource path="res://Player/Player.png" type="Texture" id=2]
+[ext_resource path="res://Player/Art/Player.png" type="Texture" id=2]
+[ext_resource path="res://Player/Art/Eye Base.png" type="Texture" id=3]
+[ext_resource path="res://Player/Art/Eye.png" type="Texture" id=4]
 
 [node name="Player" type="KinematicBody2D"]
 z_index = 1
@@ -24,3 +26,20 @@ position = Vector2( 0, -300 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Top Area2D"]
 polygon = PoolVector2Array( -153.499, 11.0312, -136.028, 2.94287, -116.293, -4.82196, -94.9395, -9.02789, -71.3215, -11.6162, -48.9977, -11.6162, -21.1738, -12.2632, 5.0325, -11.2926, 38.68, -10.9691, 79.4453, -6.11609, 113.093, 3.5899, 138.791, 14.1088, 165.128, 30.0927 )
+
+[node name="Eyes" type="Node2D" parent="."]
+position = Vector2( 0, -200 )
+
+[node name="Left Eye Base" type="Sprite" parent="Eyes"]
+position = Vector2( -60, 0 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Eyes/Left Eye Base"]
+texture = ExtResource( 4 )
+
+[node name="Right Eye Base" type="Sprite" parent="Eyes"]
+position = Vector2( 60, 0 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Eyes/Right Eye Base"]
+texture = ExtResource( 4 )
