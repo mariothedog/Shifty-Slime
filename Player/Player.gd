@@ -44,9 +44,16 @@ func input():
 	var input_vel_x = 0
 	if Input.is_action_pressed("move_right"):
 		input_vel_x += 1
+		
+		rotation_degrees = lerp(rotation_degrees, 5, 0.15)
 	
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
+		
+		rotation_degrees = lerp(rotation_degrees, -5, 0.15)
+	
+	if input_vel_x == 0:
+		rotation_degrees = lerp(rotation_degrees, 0, 0.15)
 	
 	velocity.x = input_vel_x * speed
 	
