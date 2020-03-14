@@ -84,7 +84,7 @@ func update_collision_shapes():
 			$"Top Area2D/CollisionPolygon2D".polygon[i].x = original_polygon_top[i].x * $Sprite.scale.x
 			$"Top Area2D/CollisionPolygon2D".polygon[i].y = original_polygon_top[i].y * $Sprite.scale.y
 		
-		$"Top Area2D".position = Vector2(0, -300) * $Sprite.scale
+		$"Top Area2D".position = Vector2(0, -225) * $Sprite.scale
 
 func movement(delta):
 	velocity.y += GRAVITY * delta
