@@ -1,12 +1,15 @@
 extends KinematicBody2D
 
 export var speed = 300
+export var jump_speed = 400
 
 const GRAVITY = 400
 
 var velocity = Vector2()
 
 var scale_dir = Vector2(1, 1)
+
+var jump = false
 
 onready var original_polygon = $CollisionPolygon2D.polygon
 
@@ -45,6 +48,10 @@ func input():
 		input_vel_x -= 1
 	
 	velocity.x = input_vel_x * speed
+	
+	jump = false
+	if Input.is_action_pressed("jump"):
+		jump = true
 
 func update_collision_shape():
 	if Vector2(stepify($Sprite.scale.x, 0.01), stepify($Sprite.scale.y, 0.01)) != scale_dir: # So it's not unnecessarily run.
@@ -57,7 +64,10 @@ func update_collision_shape():
 func movement(delta):
 	velocity.y += GRAVITY * delta
 	
-	velocity = move_and_slide(velocity)
+	velocity = move_and_slide(velocity, Vector2.UP)
+	
+	if is_on_floor() and jump:
+		velocity.y = -jump_speed
 
 func animate():
 	pass
