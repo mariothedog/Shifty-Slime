@@ -158,9 +158,22 @@ func movement(delta):
 		velocity.y = -jump_speed * pow($Sprite.scale.x, 1.8)
 
 func animate():
-	$"Eyes/Left Eye Base/Pupil".look_at(get_global_mouse_position())
-	$"Eyes/Right Eye Base/Pupil".look_at(get_global_mouse_position())
+	#$"Eyes/Left Eye Base/Pupil".look_at(get_global_mouse_position())
+	#$"Eyes/Right Eye Base/Pupil".look_at(get_global_mouse_position())
 	
+#	$"Eyes/Left Eye Base/Pupil".rotation = lerp_angle($"Eyes/Left Eye Base/Pupil".rotation, $"Eyes/Left Eye Base/Pupil".global_position.angle_to_point(get_global_mouse_position()) + PI, 0.4)
+#	$"Eyes/Right Eye Base/Pupil".rotation = lerp_angle($"Eyes/Right Eye Base/Pupil".rotation, $"Eyes/Right Eye Base/Pupil".global_position.angle_to_point(get_global_mouse_position()) + PI, 0.4)
+#	print($"Eyes/Left Eye Base/Pupil".offset)
+	
+	var final_pos_left = Vector2(max(min(get_global_mouse_position().x, $"Eyes/Left Eye Base".global_position.x + 20), $"Eyes/Left Eye Base".global_position.x - 20),
+	max(min(get_global_mouse_position().y, $"Eyes/Left Eye Base".global_position.y + 30), $"Eyes/Left Eye Base".global_position.y - 30))
+	
+	var final_pos_right = Vector2(max(min(get_global_mouse_position().x, $"Eyes/Right Eye Base".global_position.x + 20), $"Eyes/Right Eye Base".global_position.x - 20),
+	max(min(get_global_mouse_position().y, $"Eyes/Right Eye Base".global_position.y + 30), $"Eyes/Right Eye Base".global_position.y - 30))
+	
+	$"Eyes/Left Eye Base/Pupil".global_position = lerp($"Eyes/Left Eye Base/Pupil".global_position, final_pos_left, 0.4)
+	$"Eyes/Right Eye Base/Pupil".global_position = lerp($"Eyes/Right Eye Base/Pupil".global_position, final_pos_right, 0.4)
+
 func stepify_vector(vector, step):
 	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
 
