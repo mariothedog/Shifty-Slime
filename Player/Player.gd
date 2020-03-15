@@ -51,9 +51,11 @@ func _physics_process(delta):
 func input():
 	# Growing
 	if Input.is_action_pressed("expand_up"):
+		$Tween.stop_all()
 		scale_dir += Vector2(-expanding_scale, expanding_scale)
 	
 	if Input.is_action_pressed("shrink"):
+		$Tween.stop_all()
 		scale_dir += Vector2(expanding_scale, -expanding_scale)
 	
 	var can_scale = true
@@ -175,7 +177,7 @@ func animate():
 	$"Eyes/Right Eye Base/Pupil".position = lerp($"Eyes/Right Eye Base/Pupil".position, final_right_eye_pos, 0.4)
 	
 	# Landing animation
-	if not was_on_floor_last_frame and is_touching_floor:
+	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 0:
 		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale,
 		Vector2(1 + clamp(landing_expand_scale * impact_velocity.y / 1000, 0.1, 0.9), 1 - clamp(landing_expand_scale * impact_velocity.y / 1000, 0.1, 0.9)),
 		100/impact_velocity.y,
