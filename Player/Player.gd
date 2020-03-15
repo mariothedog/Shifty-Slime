@@ -158,15 +158,13 @@ func movement(delta):
 		velocity.y = -jump_speed * pow($Sprite.scale.x, 1.8)
 
 func animate():
-	var final_eye_pos_left = Vector2(max(min(get_global_mouse_position().x, $"Eyes/Left Eye Base".global_position.x + 20), $"Eyes/Left Eye Base".global_position.x - 20),
-	max(min(get_global_mouse_position().y, $"Eyes/Left Eye Base".global_position.y + 30), $"Eyes/Left Eye Base".global_position.y - 30))
+	# Clamps it to inside the elliptic eye boundary
+	var final_left_eye_pos = ($"Eyes/Left Eye Base".get_local_mouse_position() / Vector2(20, 30)).clamped(1) * Vector2(20, 30)
+	var final_right_eye_pos = ($"Eyes/Right Eye Base".get_local_mouse_position() / Vector2(20, 30)).clamped(1) * Vector2(20, 30)
 	
-	var final_eye_pos_right = Vector2(max(min(get_global_mouse_position().x, $"Eyes/Right Eye Base".global_position.x + 20), $"Eyes/Right Eye Base".global_position.x - 20),
-	max(min(get_global_mouse_position().y, $"Eyes/Right Eye Base".global_position.y + 30), $"Eyes/Right Eye Base".global_position.y - 30))
+	$"Eyes/Left Eye Base/Pupil".position = lerp($"Eyes/Left Eye Base/Pupil".position, final_left_eye_pos, 0.4)
+	$"Eyes/Right Eye Base/Pupil".position = lerp($"Eyes/Right Eye Base/Pupil".position, final_right_eye_pos, 0.4)
 	
-	$"Eyes/Left Eye Base/Pupil".global_position = lerp($"Eyes/Left Eye Base/Pupil".global_position, final_eye_pos_left, 0.4)
-	$"Eyes/Right Eye Base/Pupil".global_position = lerp($"Eyes/Right Eye Base/Pupil".global_position, final_eye_pos_right, 0.4)
-
 func stepify_vector(vector, step):
 	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
 
