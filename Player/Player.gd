@@ -18,6 +18,7 @@ var jump = false
 var jump_held = false
 var is_touching_floor = false
 var was_on_floor_last_frame = false
+var impact_velocity = Vector2()
 
 onready var original_polygon = $CollisionPolygon2D.polygon
 onready var original_polygon_top = $"Detectors/Top Area2D/CollisionPolygon2D".polygon
@@ -150,12 +151,17 @@ func update_collision_shapes():
 func movement(delta):
 	velocity.y += GRAVITY * (1 / $Sprite.scale.x) * delta
 	
-	velocity = move_and_slide(velocity, Vector2.UP)
+	var vel = move_and_slide(velocity, Vector2.UP)
 	
 	is_touching_floor = false
 	for raycast in $"Detectors/Floor Detector".get_children():
 		if raycast.is_colliding():
 			is_touching_floor = true
+	
+	if not is_touching_floor:
+		impact_velocity = velocity
+	
+	velocity = vel
 	
 	if is_touching_floor and jump:
 		velocity.y = -jump_speed * pow($Sprite.scale.x, 1.8)
@@ -170,10 +176,10 @@ func animate():
 	
 	# Landing animation
 	if not was_on_floor_last_frame and is_touching_floor:
-		#$Sprite.scale = lerp($Sprite.scale, Vector2(1 + expanding_scale/2, 1 - expanding_scale/2), 0.5)
 		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale,
-		Vector2(1 + landing_expand_scale, 1 - landing_expand_scale),
-		0.1, Tween.TRANS_BOUNCE)
+		Vector2(1 + clamp(landing_expand_scale * impact_velocity.y / 1000, 0.1, 0.9), 1 - clamp(landing_expand_scale * impact_velocity.y / 1000, 0.1, 0.9)),
+		100/impact_velocity.y,
+		Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 		$Tween.start()
 	
 	was_on_floor_last_frame = is_touching_floor
