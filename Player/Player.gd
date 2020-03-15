@@ -3,9 +3,9 @@ extends KinematicBody2D
 export var speed = 300
 export var jump_speed = 400
 export var expanding_scale = 0.65
-export var moving_rotation_normal = 3
+export var moving_rotation_normal = 2
 export var moving_rotation_short = 0.5
-export var moving_rotation_tall = 6
+export var moving_rotation_tall = 4
 
 const GRAVITY = 1200
 
@@ -17,16 +17,22 @@ var jump = false
 var jump_held = false
 
 onready var original_polygon = $CollisionPolygon2D.polygon
-onready var original_polygon_top = $"Top Area2D/CollisionPolygon2D".polygon
-onready var original_polygon_right = $"Side Area2D/Right".polygon
-onready var original_polygon_left = $"Side Area2D/Left".polygon
+onready var original_polygon_top = $"Detectors/Top Area2D/CollisionPolygon2D".polygon
+onready var original_polygon_left = $"Detectors/Left Area2D/Left".polygon
+onready var original_polygon_right = $"Detectors/Right Area2D/Right".polygon
 
 onready var collision_polygon_default_pos = $CollisionPolygon2D.position
-onready var top_area_default_pos = $"Top Area2D".position
-onready var side_area_right_default_pos = $"Side Area2D/Right".position
-onready var side_area_left_default_pos = $"Side Area2D/Left".position
+onready var top_area_default_pos = $"Detectors/Top Area2D".position
+onready var left_area_default_pos = $"Detectors/Left Area2D/Left".position
+onready var right_area_default_pos = $"Detectors/Right Area2D/Right".position
 onready var eyes_default_pos = $Eyes.position
 onready var eye_default_pos = $"Eyes/Right Eye Base".position
+
+onready var texture_height = $Sprite.texture.get_height()
+onready var texture_width = $Sprite.texture.get_width()
+onready var bottom_offset = Vector2(0, -texture_height/2)
+onready var left_offset = Vector2(texture_width/2, -texture_height/2)
+onready var right_offset = Vector2(-texture_width/2, -texture_height/2)
 
 func _ready():
 	update_raycasts()
@@ -46,19 +52,21 @@ func input():
 	if Input.is_action_pressed("shrink"):
 		scale_dir += Vector2(expanding_scale, -expanding_scale)
 	
-	var colliding_with_object_up = false
-	for body in $"Top Area2D".get_overlapping_bodies():
-		if body.is_in_group("object"):
-			colliding_with_object_up = true
+	var can_scale = true
+	if (($"Detectors/Left Area2D".get_overlapping_bodies() and $"Detectors/Right Area2D".get_overlapping_bodies()) or
+	($"Detectors/Top Area2D".get_overlapping_bodies() and scale_dir.y > $Sprite.scale.y)):
+		can_scale = false
+	elif $"Detectors/Left Area2D".get_overlapping_bodies():
+		$Sprite.offset = left_offset
+		$Sprite.position.x = -left_offset.x * $Sprite.scale.x
+	elif $"Detectors/Right Area2D".get_overlapping_bodies():
+		$Sprite.offset = right_offset
+		$Sprite.position.x = -right_offset.x * $Sprite.scale.x
+	else:
+		$Sprite.offset = bottom_offset
+		$Sprite.position.x = 0
 	
-	var colliding_with_object_side = false
-	for body in $"Side Area2D".get_overlapping_bodies():
-		if body.is_in_group("object"):
-			colliding_with_object_side = true
-	
-	if (not (colliding_with_object_up and scale_dir.y > $Sprite.scale.y or
-	colliding_with_object_side and scale_dir.x > $Sprite.scale.x) and
-	not jump_held):
+	if can_scale and not jump_held:
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 	
 	$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * $Sprite.scale.y, 0.15)
@@ -70,9 +78,9 @@ func input():
 	if Input.is_action_pressed("move_right"):
 		input_vel_x += 1
 		
-		if scale_dir.x > 1:
+		if $Sprite.scale.x > 1:
 			rotation_degrees = lerp(rotation_degrees, moving_rotation_short, 0.15)
-		elif scale_dir.x < 1:
+		elif $Sprite.scale.x < 1:
 			rotation_degrees = lerp(rotation_degrees, moving_rotation_tall, 0.15)
 		else:
 			rotation_degrees = lerp(rotation_degrees, moving_rotation_normal, 0.15)
@@ -82,9 +90,9 @@ func input():
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
 		
-		if scale_dir.x > 1:
+		if $Sprite.scale.x > 1:
 			rotation_degrees = lerp(rotation_degrees, -moving_rotation_short, 0.15)
-		elif scale_dir.x < 1:
+		elif $Sprite.scale.x < 1:
 			rotation_degrees = lerp(rotation_degrees, -moving_rotation_tall, 0.15)
 		else:
 			rotation_degrees = lerp(rotation_degrees, -moving_rotation_normal, 0.15)
@@ -116,23 +124,23 @@ func update_collision_shapes():
 		
 		$CollisionPolygon2D.position = collision_polygon_default_pos * $Sprite.scale # So the centre of enlargement is at the bottom of the middle of the sprite.
 		
-		for i in range(len($"Top Area2D/CollisionPolygon2D".polygon)):
-			$"Top Area2D/CollisionPolygon2D".polygon[i].x = original_polygon_top[i].x * $Sprite.scale.x
-			$"Top Area2D/CollisionPolygon2D".polygon[i].y = original_polygon_top[i].y * $Sprite.scale.y
+		for i in range(len($"Detectors/Top Area2D/CollisionPolygon2D".polygon)):
+			$"Detectors/Top Area2D/CollisionPolygon2D".polygon[i].x = original_polygon_top[i].x * $Sprite.scale.x
+			$"Detectors/Top Area2D/CollisionPolygon2D".polygon[i].y = original_polygon_top[i].y * $Sprite.scale.y
 		
-		$"Top Area2D".position = top_area_default_pos * $Sprite.scale
+		$"Detectors/Top Area2D".position = top_area_default_pos * $Sprite.scale
 		
-		for i in range(len($"Side Area2D/Right".polygon)):
-			$"Side Area2D/Right".polygon[i].x = original_polygon_right[i].x * $Sprite.scale.x
-			$"Side Area2D/Right".polygon[i].y = original_polygon_right[i].y * $Sprite.scale.y
+		for i in range(len($"Detectors/Left Area2D/Left".polygon)):
+			$"Detectors/Left Area2D/Left".polygon[i].x = original_polygon_left[i].x * $Sprite.scale.x
+			$"Detectors/Left Area2D/Left".polygon[i].y = original_polygon_left[i].y * $Sprite.scale.y
 		
-		$"Side Area2D/Right".position = side_area_right_default_pos * $Sprite.scale
+		$"Detectors/Left Area2D/Left".position = left_area_default_pos * $Sprite.scale
 		
-		for i in range(len($"Side Area2D/Left".polygon)):
-			$"Side Area2D/Left".polygon[i].x = original_polygon_left[i].x * $Sprite.scale.x
-			$"Side Area2D/Left".polygon[i].y = original_polygon_left[i].y * $Sprite.scale.y
+		for i in range(len($"Detectors/Right Area2D/Right".polygon)):
+			$"Detectors/Right Area2D/Right".polygon[i].x = original_polygon_right[i].x * $Sprite.scale.x
+			$"Detectors/Right Area2D/Right".polygon[i].y = original_polygon_right[i].y * $Sprite.scale.y
 		
-		$"Side Area2D/Left".position = side_area_left_default_pos * $Sprite.scale
+		$"Detectors/Right Area2D/Right".position = right_area_default_pos * $Sprite.scale
 		
 		update_raycasts()
 
@@ -142,7 +150,7 @@ func movement(delta):
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	var is_touching_floor = false
-	for raycast in $"Floor Detector".get_children():
+	for raycast in $"Detectors/Floor Detector".get_children():
 		if raycast.is_colliding():
 			is_touching_floor = true
 	
@@ -157,19 +165,19 @@ func stepify_vector(vector, step):
 	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
 
 func update_raycasts():
-	for raycast in $"Floor Detector".get_children():
+	for raycast in $"Detectors/Floor Detector".get_children():
 			raycast.enabled = true
 	
 	if $Sprite.scale.x <= 1.2:
-		$"Floor Detector/RayCast2D6".enabled = false
-		$"Floor Detector/RayCast2D7".enabled = false
-		$"Floor Detector/RayCast2D8".enabled = false
-		$"Floor Detector/RayCast2D9".enabled = false
+		$"Detectors/Floor Detector/RayCast2D6".enabled = false
+		$"Detectors/Floor Detector/RayCast2D7".enabled = false
+		$"Detectors/Floor Detector/RayCast2D8".enabled = false
+		$"Detectors/Floor Detector/RayCast2D9".enabled = false
 	
 	if $Sprite.scale.x <= 0.7:
-		$"Floor Detector/RayCast2D4".enabled = false
-		$"Floor Detector/RayCast2D5".enabled = false
+		$"Detectors/Floor Detector/RayCast2D4".enabled = false
+		$"Detectors/Floor Detector/RayCast2D5".enabled = false
 	
 	if $Sprite.scale.x <= 0.6:
-		$"Floor Detector/RayCast2D2".enabled = false
-		$"Floor Detector/RayCast2D3".enabled = false
+		$"Detectors/Floor Detector/RayCast2D2".enabled = false
+		$"Detectors/Floor Detector/RayCast2D3".enabled = false

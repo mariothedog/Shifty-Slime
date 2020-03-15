@@ -8,6 +8,7 @@
 [node name="Player" type="KinematicBody2D"]
 z_index = 1
 collision_layer = 2
+collision_mask = 5
 script = ExtResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -23,21 +24,79 @@ offset = Vector2( 0, -75 )
 position = Vector2( 0, -75 )
 polygon = PoolVector2Array( 34.3502, -56.0902, 63.3468, -36.6266, 85.5909, -0.480103, 83.0901, 66.0131, 70.859, 70, -66.095, 70, -81.6423, 65.4481, -82.2039, 1.26617, -67.8494, -33.8402, -36.9091, -54.0581, 0.189667, -60.8568 )
 
-[node name="Top Area2D" type="Area2D" parent="."]
+[node name="Detectors" type="Node2D" parent="."]
+
+[node name="Top Area2D" type="Area2D" parent="Detectors"]
 position = Vector2( 0, -144 )
+collision_layer = 0
+collision_mask = 4
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Top Area2D"]
-polygon = PoolVector2Array( -61.0623, 16.7726, -43.2528, 7.52136, -20.0662, 0.459991, 3.97335, -1.6864, 31.8764, 2.60638, 48.8329, 8.61629, 70.7261, 19.7775 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Detectors/Top Area2D"]
+polygon = PoolVector2Array( -69.6517, 15.8343, -53.8703, 1.99376, -28.4437, -6.30219, 2.88794, -9.02667, 35.5818, -5.96161, 53.9722, 1.19017, 74.7464, 18.8994 )
 
-[node name="Side Area2D" type="Area2D" parent="."]
+[node name="Left Area2D" type="Area2D" parent="Detectors"]
+position = Vector2( 0, -1 )
+collision_layer = 0
+collision_mask = 4
 
-[node name="Right" type="CollisionPolygon2D" parent="Side Area2D"]
-position = Vector2( 130, -130 )
-polygon = PoolVector2Array( -93.6306, 22.3178, -58.5919, 12.9741, -47.7883, 31.0775, -34.3844, 48.9586, -34.1466, 68.2226, -34.3793, 94.2125, -36.4874, 108.179, -79.1778, 104.49 )
-
-[node name="Left" type="CollisionPolygon2D" parent="Side Area2D"]
+[node name="Left" type="CollisionPolygon2D" parent="Detectors/Left Area2D"]
 position = Vector2( -35, -130 )
-polygon = PoolVector2Array( 0.999916, 22.3178, -38.4187, 10.6382, -51.7979, 35.4025, -58.4571, 55.38, -59.884, 75.1196, -57.0059, 92.8949, -51.999, 108.443, -4.8288, 101.591 )
+polygon = PoolVector2Array( 0.999916, 22.3178, -27.2768, 5.12823, -51.7979, 35.4025, -58.4571, 55.38, -59.884, 75.1196, -57.0059, 92.8949, -51.999, 108.443, -4.8288, 101.591 )
+
+[node name="Right Area2D" type="Area2D" parent="Detectors"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="Right" type="CollisionPolygon2D" parent="Detectors/Right Area2D"]
+position = Vector2( 130, -130 )
+polygon = PoolVector2Array( -93.6306, 22.3178, -63.9454, 6.16168, -47.7883, 31.0775, -34.3844, 48.9586, -34.1466, 68.2226, -34.3793, 94.2125, -36.4874, 108.179, -79.1778, 104.49 )
+
+[node name="Floor Detector" type="Node2D" parent="Detectors"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( 0, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
+
+[node name="RayCast2D2" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( 40, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
+
+[node name="RayCast2D3" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( -40, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
+
+[node name="RayCast2D4" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( 80, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
+
+[node name="RayCast2D5" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( -80, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
+
+[node name="RayCast2D6" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( 120, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
+
+[node name="RayCast2D7" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( -120, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
+
+[node name="RayCast2D8" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( 150, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
+
+[node name="RayCast2D9" type="RayCast2D" parent="Detectors/Floor Detector"]
+position = Vector2( -150, -15 )
+enabled = true
+cast_to = Vector2( 0, 15 )
 
 [node name="Eyes" type="Node2D" parent="."]
 position = Vector2( 0, -119 )
@@ -57,50 +116,3 @@ texture = ExtResource( 3 )
 [node name="Pupil" type="Sprite" parent="Eyes/Right Eye Base"]
 texture = ExtResource( 4 )
 offset = Vector2( 20, 0 )
-
-[node name="Floor Detector" type="Node2D" parent="."]
-
-[node name="RayCast2D" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( 0, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D2" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( 40, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D3" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( -40, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D4" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( 80, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D5" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( -80, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D6" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( 120, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D7" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( -120, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D8" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( 150, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D9" type="RayCast2D" parent="Floor Detector"]
-position = Vector2( -150, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
