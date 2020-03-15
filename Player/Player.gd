@@ -3,7 +3,7 @@ extends KinematicBody2D
 export var speed = 300
 export var jump_speed = 400
 export var expanding_scale = 0.65
-export var landing_expand_scale = 0.55
+export var landing_expanding_scale = 0.55
 export var moving_rotation_normal = 2
 export var moving_rotation_short = 0.5
 export var moving_rotation_tall = 4
@@ -178,8 +178,10 @@ func animate():
 	
 	# Landing animation
 	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 0:
+		$Tween.stop_all()
 		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale,
-		Vector2(1 + clamp(landing_expand_scale * impact_velocity.y / 1000, 0.1, 0.9), 1 - clamp(landing_expand_scale * impact_velocity.y / 1000, 0.1, 0.9)),
+		Vector2(1 + clamp(landing_expanding_scale * impact_velocity.y / 1000, 0.1, 0.9),
+		1 - clamp(landing_expanding_scale * impact_velocity.y / 1000, 0.1, 0.9)),
 		100/impact_velocity.y,
 		Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 		$Tween.start()
