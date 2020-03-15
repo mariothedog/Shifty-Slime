@@ -110,3 +110,5 @@ texture = ExtResource( 3 )
 
 [node name="Pupil" type="Sprite" parent="Eyes/Right Eye Base"]
 texture = ExtResource( 4 )
+
+[node name="Tween" type="Tween" parent="."]

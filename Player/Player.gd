@@ -3,6 +3,7 @@ extends KinematicBody2D
 export var speed = 300
 export var jump_speed = 400
 export var expanding_scale = 0.65
+export var landing_expand_scale = 0.55
 export var moving_rotation_normal = 2
 export var moving_rotation_short = 0.5
 export var moving_rotation_tall = 4
@@ -15,6 +16,8 @@ var scale_dir = Vector2(1, 1)
 
 var jump = false
 var jump_held = false
+var is_touching_floor = false
+var was_on_floor_last_frame = false
 
 onready var original_polygon = $CollisionPolygon2D.polygon
 onready var original_polygon_top = $"Detectors/Top Area2D/CollisionPolygon2D".polygon
@@ -149,7 +152,7 @@ func movement(delta):
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-	var is_touching_floor = false
+	is_touching_floor = false
 	for raycast in $"Detectors/Floor Detector".get_children():
 		if raycast.is_colliding():
 			is_touching_floor = true
@@ -164,6 +167,16 @@ func animate():
 	
 	$"Eyes/Left Eye Base/Pupil".position = lerp($"Eyes/Left Eye Base/Pupil".position, final_left_eye_pos, 0.4)
 	$"Eyes/Right Eye Base/Pupil".position = lerp($"Eyes/Right Eye Base/Pupil".position, final_right_eye_pos, 0.4)
+	
+	# Landing animation
+	if not was_on_floor_last_frame and is_touching_floor:
+		#$Sprite.scale = lerp($Sprite.scale, Vector2(1 + expanding_scale/2, 1 - expanding_scale/2), 0.5)
+		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale,
+		Vector2(1 + landing_expand_scale, 1 - landing_expand_scale),
+		0.1, Tween.TRANS_BOUNCE)
+		$Tween.start()
+	
+	was_on_floor_last_frame = is_touching_floor
 	
 func stepify_vector(vector, step):
 	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
