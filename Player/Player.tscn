@@ -16,7 +16,6 @@ current = true
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.862745 )
-scale = Vector2( 1.65, 1 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -75 )
 
