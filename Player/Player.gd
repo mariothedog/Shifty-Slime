@@ -215,8 +215,6 @@ func update_raycasts():
 	if $Sprite.scale.x <= 1.2:
 		$"Detectors/Floor Detector/RayCast2D6".enabled = false
 		$"Detectors/Floor Detector/RayCast2D7".enabled = false
-		$"Detectors/Floor Detector/RayCast2D8".enabled = false
-		$"Detectors/Floor Detector/RayCast2D9".enabled = false
 	
 	if $Sprite.scale.x <= 0.7:
 		$"Detectors/Floor Detector/RayCast2D4".enabled = false

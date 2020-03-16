@@ -16,12 +16,13 @@ current = true
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.862745 )
+scale = Vector2( 1.65, 1 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -75 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2( 0, -75 )
-polygon = PoolVector2Array( 34.3502, -56.0902, 63.3468, -36.6266, 85.5909, -0.480103, 83.0901, 66.0131, 70.859, 70, -66.095, 70, -81.6423, 65.4481, -82.2039, 1.26617, -67.8494, -33.8402, -36.9091, -54.0581, 0.189667, -60.8568 )
+polygon = PoolVector2Array( 34.3502, -56.0902, 63.3468, -36.6266, 85.5909, -0.480103, 83.0901, 66.0131, 70.859, 70, -66.095, 70, -81.6423, 65.4481, -84.8478, 0.810043, -69.936, -34.6618, -36.9091, -54.0581, 0.189667, -60.8568 )
 
 [node name="Detectors" type="Node2D" parent="."]
 
@@ -38,7 +39,7 @@ collision_layer = 0
 
 [node name="Left" type="CollisionPolygon2D" parent="Detectors/Left Area2D"]
 position = Vector2( -35, -130 )
-polygon = PoolVector2Array( 0.999916, 22.3178, -27.2768, 5.12823, -51.7979, 35.4025, -58.4571, 55.38, -59.884, 75.1196, -57.0059, 92.8949, -51.999, 108.443, -4.8288, 101.591 )
+polygon = PoolVector2Array( 0.999916, 22.3178, -27.2768, 5.12823, -53.9146, 33.9906, -60.6927, 55.0026, -62.7261, 74.8849, -58.8852, 93.1857, -51.999, 108.443, -4.8288, 101.591 )
 
 [node name="Right Area2D" type="Area2D" parent="Detectors"]
 collision_layer = 0
@@ -75,22 +76,12 @@ enabled = true
 cast_to = Vector2( 0, 15 )
 
 [node name="RayCast2D6" type="RayCast2D" parent="Detectors/Floor Detector"]
-position = Vector2( 120, -15 )
+position = Vector2( 130, -15 )
 enabled = true
 cast_to = Vector2( 0, 15 )
 
 [node name="RayCast2D7" type="RayCast2D" parent="Detectors/Floor Detector"]
-position = Vector2( -120, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D8" type="RayCast2D" parent="Detectors/Floor Detector"]
-position = Vector2( 150, -15 )
-enabled = true
-cast_to = Vector2( 0, 15 )
-
-[node name="RayCast2D9" type="RayCast2D" parent="Detectors/Floor Detector"]
-position = Vector2( -150, -15 )
+position = Vector2( -130, -15 )
 enabled = true
 cast_to = Vector2( 0, 15 )
 
