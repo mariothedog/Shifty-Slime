@@ -54,11 +54,9 @@ func _physics_process(delta):
 func input():
 	# Growing
 	if Input.is_action_pressed("expand_up"):
-		#$Tween.stop_all()
 		scale_dir += Vector2(-expanding_scale, expanding_scale)
 	
 	if Input.is_action_pressed("shrink"):
-		#$Tween.stop_all()
 		scale_dir += Vector2(expanding_scale, -expanding_scale)
 	
 	var can_scale = true
@@ -80,7 +78,7 @@ func input():
 		var scale = sin(3 * elapsed_time)/20
 		scale_dir.y += scale
 		scale_dir.x -= scale
-
+	
 		# Expand/shrink the player
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 	
@@ -194,8 +192,8 @@ func animate(delta):
 			final_scale = Vector2($Sprite.scale.x + 0.15, $Sprite.scale.y - 0.15)
 		
 		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale,
-		final_scale, 100/impact_velocity.y,
-		Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+		final_scale, 200/impact_velocity.y,
+		Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 		
 		$Tween.start()
 		
