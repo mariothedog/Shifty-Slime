@@ -177,13 +177,13 @@ func animate():
 	$"Eyes/Right Eye Base/Pupil".position = lerp($"Eyes/Right Eye Base/Pupil".position, final_right_eye_pos, 0.4)
 	
 	# Landing animation
-	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 0:
+	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 90:
 		$Tween.stop_all()
 		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale,
 		Vector2(1 + clamp(landing_expanding_scale * impact_velocity.y / 1000, 0.1, 0.9),
 		1 - clamp(landing_expanding_scale * impact_velocity.y / 1000, 0.1, 0.9)),
 		100/impact_velocity.y,
-		Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+		Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		$Tween.start()
 	
 	was_on_floor_last_frame = is_touching_floor

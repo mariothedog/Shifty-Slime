@@ -28,14 +28,6 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 700, 300 )
-speed = 300
-jump_speed = 400
-expanding_scale = 0.65
-walking_expanding_scale = 0.1
-landing_expanding_scale = 0.55
-moving_rotation_normal = 2
-moving_rotation_short = 0.5
-moving_rotation_tall = 4
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 2 )
