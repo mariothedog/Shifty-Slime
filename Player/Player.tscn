@@ -21,7 +21,7 @@ offset = Vector2( 0, -75 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2( 0, -75 )
-polygon = PoolVector2Array( 34.3502, -56.0902, 63.3468, -36.6266, 85.5909, -0.480103, 83.0901, 66.0131, 70.859, 70, -66.095, 70, -81.6423, 65.4481, -84.8478, 0.810043, -69.936, -34.6618, -36.9091, -54.0581, 0.189667, -60.8568 )
+polygon = PoolVector2Array( 33.5022, -45.6629, 61.04, -32.1444, 85.5909, -0.480103, 83.0901, 66.0131, 70.859, 70, -66.095, 70, -81.6423, 65.4481, -84.8478, 0.810043, -66.8858, -29.1402, -35.8431, -45.1622, -0.544617, -49.9188 )
 
 [node name="Detectors" type="Node2D" parent="."]
 
@@ -30,7 +30,7 @@ position = Vector2( 0, -144 )
 collision_layer = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Detectors/Top Area2D"]
-polygon = PoolVector2Array( -69.6517, 15.8343, -53.8703, 1.99376, -28.4437, -6.30219, 2.88794, -9.02667, 35.5818, -5.96161, 53.9722, 1.19017, 74.7464, 18.8994 )
+polygon = PoolVector2Array( -75.1471, 25.0895, -53.8703, 1.99376, -28.4437, -6.30219, 2.88794, -9.02667, 35.5818, -5.96161, 53.9722, 1.19017, 75.0593, 25.8405 )
 
 [node name="Left Area2D" type="Area2D" parent="Detectors"]
 position = Vector2( 0, -1 )
