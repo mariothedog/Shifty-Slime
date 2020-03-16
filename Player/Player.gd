@@ -19,6 +19,8 @@ var is_touching_floor = false
 var was_on_floor_last_frame = false
 var impact_velocity = Vector2()
 
+var elapsed_time = 0
+
 onready var original_polygon = $CollisionPolygon2D.polygon
 onready var original_polygon_top = $"Detectors/Top Area2D/CollisionPolygon2D".polygon
 onready var original_polygon_left = $"Detectors/Left Area2D/Left".polygon
@@ -42,6 +44,7 @@ func _ready():
 
 func _physics_process(delta):
 	scale_dir = Vector2(1, 1)
+	elapsed_time += delta
 	input()
 	update_collision_shapes()
 	movement(delta)
@@ -72,6 +75,12 @@ func input():
 		$Sprite.position.x = 0
 	
 	if can_scale and not jump_held:
+		# Default animation
+		var scale = sin(3 * elapsed_time)/20
+		scale_dir.y += scale
+		scale_dir.x -= scale
+		
+		# Expand/shrink the player
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 	
 	$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * $Sprite.scale.y, 0.15)
