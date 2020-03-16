@@ -184,7 +184,7 @@ func animate(delta):
 	$"Eyes/Right Eye Base/Pupil".position = lerp($"Eyes/Right Eye Base/Pupil".position, final_right_eye_pos, 0.4)
 	
 	# Landing animation
-	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 90 and not $Tween.is_active() and time_since_last_landing_anim > 0.4:
+	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 400 and not $Tween.is_active() and time_since_last_landing_anim > 0.4:
 		var final_scale = Vector2(1 + clamp(landing_expanding_scale * impact_velocity.y / 1400, 0.1, 0.9),
 		1 - clamp(landing_expanding_scale * impact_velocity.y / 1400, 0.1, 0.9))
 		
