@@ -180,8 +180,8 @@ func animate():
 	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 90:
 		$Tween.stop_all()
 		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale,
-		Vector2(1 + clamp(landing_expanding_scale * impact_velocity.y / 1000, 0.1, 0.9),
-		1 - clamp(landing_expanding_scale * impact_velocity.y / 1000, 0.1, 0.9)),
+		Vector2(1 + clamp(landing_expanding_scale * impact_velocity.y / 1300, 0.1, 0.9),
+		1 - clamp(landing_expanding_scale * impact_velocity.y / 1200, 0.1, 0.9)),
 		100/impact_velocity.y,
 		Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		$Tween.start()
