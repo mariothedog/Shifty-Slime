@@ -18,6 +18,7 @@ var jump_held = false
 var is_touching_floor = false
 var was_on_floor_last_frame = false
 var impact_velocity = Vector2()
+var time_since_last_landing_anim = 0
 
 var elapsed_time = 0
 
@@ -48,16 +49,16 @@ func _physics_process(delta):
 	input()
 	update_collision_shapes()
 	movement(delta)
-	animate()
+	animate(delta)
 
 func input():
 	# Growing
 	if Input.is_action_pressed("expand_up"):
-		$Tween.stop_all()
+		#$Tween.stop_all()
 		scale_dir += Vector2(-expanding_scale, expanding_scale)
 	
 	if Input.is_action_pressed("shrink"):
-		$Tween.stop_all()
+		#$Tween.stop_all()
 		scale_dir += Vector2(expanding_scale, -expanding_scale)
 	
 	var can_scale = true
@@ -74,12 +75,12 @@ func input():
 		$Sprite.offset = bottom_offset
 		$Sprite.position.x = 0
 	
-	if can_scale and not jump_held:
+	if can_scale and not jump_held and not $Tween.is_active():
 		# Default animation
 		var scale = sin(3 * elapsed_time)/20
 		scale_dir.y += scale
 		scale_dir.x -= scale
-		
+
 		# Expand/shrink the player
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 	
@@ -176,7 +177,7 @@ func movement(delta):
 	if is_touching_floor and jump:
 		velocity.y = -jump_speed * pow($Sprite.scale.x, 1.8)
 
-func animate():
+func animate(delta):
 	# Clamps it to inside the elliptic eye boundary
 	var final_left_eye_pos = ($"Eyes/Left Eye Base".get_local_mouse_position() / Vector2(20, 30)).clamped(1) * Vector2(20, 30)
 	var final_right_eye_pos = ($"Eyes/Right Eye Base".get_local_mouse_position() / Vector2(20, 30)).clamped(1) * Vector2(20, 30)
@@ -185,14 +186,22 @@ func animate():
 	$"Eyes/Right Eye Base/Pupil".position = lerp($"Eyes/Right Eye Base/Pupil".position, final_right_eye_pos, 0.4)
 	
 	# Landing animation
-	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 90:
-		$Tween.stop_all()
+	if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 90 and not $Tween.is_active() and time_since_last_landing_anim > 0.4:
+		var final_scale = Vector2(1 + clamp(landing_expanding_scale * impact_velocity.y / 1400, 0.1, 0.9),
+		1 - clamp(landing_expanding_scale * impact_velocity.y / 1400, 0.1, 0.9))
+		
+		if $Sprite.scale.y < final_scale.y:
+			final_scale = Vector2($Sprite.scale.x + 0.15, $Sprite.scale.y - 0.15)
+		
 		$Tween.interpolate_property($Sprite, "scale", $Sprite.scale,
-		Vector2(1 + clamp(landing_expanding_scale * impact_velocity.y / 1300, 0.1, 0.9),
-		1 - clamp(landing_expanding_scale * impact_velocity.y / 1200, 0.1, 0.9)),
-		100/impact_velocity.y,
+		final_scale, 100/impact_velocity.y,
 		Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+		
 		$Tween.start()
+		
+		time_since_last_landing_anim = 0
+	else:
+		time_since_last_landing_anim += delta
 	
 	was_on_floor_last_frame = is_touching_floor
 	
