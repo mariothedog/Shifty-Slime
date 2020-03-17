@@ -42,6 +42,9 @@ onready var right_offset = Vector2(-texture_width/2, -texture_height/2)
 
 func _ready():
 	_update_raycasts()
+	
+	yield(get_tree().create_timer(0.5), "timeout")
+	$"Spawn Particles".emitting = false
 
 func _physics_process(delta):
 	scale_dir = Vector2(1, 1)

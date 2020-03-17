@@ -1,9 +1,35 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Art/Player.png" type="Texture" id=2]
 [ext_resource path="res://Player/Art/Eye Base.png" type="Texture" id=3]
 [ext_resource path="res://Player/Art/Eye.png" type="Texture" id=4]
+[ext_resource path="res://Collectibles/Slime.png" type="Texture" id=5]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.0892857, 0.728571, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 1
+emission_sphere_radius = 115.0
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+radial_accel = 200.0
+angle = 90.0
+angle_random = 1.0
+scale = 0.5
+scale_random = 0.1
+color_ramp = SubResource( 3 )
+hue_variation = 0.01
+hue_variation_random = 0.05
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
@@ -103,3 +129,9 @@ texture = ExtResource( 3 )
 texture = ExtResource( 4 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Spawn Particles" type="Particles2D" parent="."]
+position = Vector2( 0, -64 )
+amount = 30
+process_material = SubResource( 1 )
+texture = ExtResource( 5 )
