@@ -1,8 +1,13 @@
 extends Node2D
 
+export var level_size = 2360
+
 var grass_blade_scene = preload("res://Grass/Grass Blade.tscn")
 
 func _ready():
+	$Walls/Right.position.x = level_size
+	$Player/Camera2D.limit_right = level_size
+	
 	for cell in $TileMap.get_used_cells():
 		var tile_type = $TileMap.get_cellv(cell)
 		if tile_type == 0: # Grass tile
