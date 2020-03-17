@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 const speed = 300
 const jump_speed = 400
-const expanding_scale = 0.65
+const expanding_scale = 0.7
 const landing_expanding_scale = 0.55
 const moving_rotation_normal = 2
 const moving_rotation_short = 0.5
