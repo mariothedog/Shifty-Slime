@@ -41,17 +41,17 @@ onready var left_offset = Vector2(texture_width/2, -texture_height/2)
 onready var right_offset = Vector2(-texture_width/2, -texture_height/2)
 
 func _ready():
-	update_raycasts()
+	_update_raycasts()
 
 func _physics_process(delta):
 	scale_dir = Vector2(1, 1)
 	elapsed_time += delta
-	input()
-	update_collision_shapes()
-	movement(delta)
-	animate(delta)
+	_get_input()
+	_update_collision_shapes()
+	_movement(delta)
+	_animate(delta)
 
-func input():
+func _get_input():
 	# Growing
 	if Input.is_action_pressed("expand_up"):
 		scale_dir += Vector2(-expanding_scale, expanding_scale)
@@ -129,7 +129,7 @@ func input():
 		if not Input.is_action_pressed("shrink"):
 			jump = true
 
-func update_collision_shapes():
+func _update_collision_shapes():
 	if stepify_vector($Sprite.scale, 0.01) != scale_dir: # So it's not unnecessarily run.
 		for i in range(len($CollisionPolygon2D.polygon)):
 			$CollisionPolygon2D.polygon[i].x = original_polygon[i].x * $Sprite.scale.x
@@ -157,7 +157,7 @@ func update_collision_shapes():
 		
 		update_raycasts()
 
-func movement(delta):
+func _movement(delta):
 	velocity.y += GRAVITY * (1 / $Sprite.scale.x) * delta
 	
 	var vel = move_and_slide(velocity, Vector2.UP)
@@ -175,7 +175,7 @@ func movement(delta):
 	if is_touching_floor and jump:
 		velocity.y = -jump_speed * pow($Sprite.scale.x, 1.8)
 
-func animate(delta):
+func _animate(delta):
 	# Clamps it to inside the elliptic eye boundary
 	var final_left_eye_pos = ($"Eyes/Left Eye Base".get_local_mouse_position() / Vector2(20, 30)).clamped(1) * Vector2(20, 30)
 	var final_right_eye_pos = ($"Eyes/Right Eye Base".get_local_mouse_position() / Vector2(20, 30)).clamped(1) * Vector2(20, 30)
@@ -206,7 +206,7 @@ func animate(delta):
 func stepify_vector(vector, step):
 	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
 
-func update_raycasts():
+func _update_raycasts():
 	for raycast in $"Detectors/Floor Detector".get_children():
 			raycast.enabled = true
 	
