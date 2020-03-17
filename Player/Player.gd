@@ -91,9 +91,9 @@ func input():
 	if Input.is_action_pressed("move_right"):
 		input_vel_x += 1
 		
-		if $Sprite.scale.x > 1:
+		if $Sprite.scale.x > 1.1:
 			rotation_degrees = lerp(rotation_degrees, moving_rotation_short, 0.15)
-		elif $Sprite.scale.x < 1:
+		elif $Sprite.scale.x < 0.9:
 			rotation_degrees = lerp(rotation_degrees, moving_rotation_tall, 0.15)
 		else:
 			rotation_degrees = lerp(rotation_degrees, moving_rotation_normal, 0.15)
@@ -103,9 +103,9 @@ func input():
 	if Input.is_action_pressed("move_left"):
 		input_vel_x -= 1
 		
-		if $Sprite.scale.x > 1:
+		if $Sprite.scale.x > 1.1:
 			rotation_degrees = lerp(rotation_degrees, -moving_rotation_short, 0.15)
-		elif $Sprite.scale.x < 1:
+		elif $Sprite.scale.x < 0.9:
 			rotation_degrees = lerp(rotation_degrees, -moving_rotation_tall, 0.15)
 		else:
 			rotation_degrees = lerp(rotation_degrees, -moving_rotation_normal, 0.15)
