@@ -14,7 +14,6 @@ script = ExtResource( 1 )
 position = Vector2( 0, -200 )
 current = true
 limit_left = 0
-limit_right = 2360
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.862745 )
