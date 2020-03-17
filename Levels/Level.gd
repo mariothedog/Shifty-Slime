@@ -1,6 +1,6 @@
 extends Node2D
 
-export var level_size = 2360
+export var level_size = 3574
 
 func _ready():
 	$Walls/Right.position.x = level_size
