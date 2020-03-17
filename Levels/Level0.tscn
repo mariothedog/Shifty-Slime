@@ -90,5 +90,5 @@ collision_layer = 16
 collision_mask = 0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 500, 100 )
+position = Vector2( 450, 200 )
 [connection signal="body_entered" from="Slime" to="." method="_on_Slime_body_entered"]
