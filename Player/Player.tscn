@@ -89,14 +89,14 @@ cast_to = Vector2( 0, 15 )
 position = Vector2( 0, -119 )
 
 [node name="Left Eye Base" type="Sprite" parent="Eyes"]
-position = Vector2( -45, 0 )
+position = Vector2( -40, 0 )
 texture = ExtResource( 3 )
 
 [node name="Pupil" type="Sprite" parent="Eyes/Left Eye Base"]
 texture = ExtResource( 4 )
 
 [node name="Right Eye Base" type="Sprite" parent="Eyes"]
-position = Vector2( 45, 0 )
+position = Vector2( 40, 0 )
 texture = ExtResource( 3 )
 
 [node name="Pupil" type="Sprite" parent="Eyes/Right Eye Base"]
