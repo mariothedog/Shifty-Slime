@@ -155,7 +155,7 @@ func _update_collision_shapes():
 		
 		$"Detectors/Right Area2D/Right".position = right_area_default_pos * $Sprite.scale
 		
-		update_raycasts()
+		_update_raycasts()
 
 func _movement(delta):
 	velocity.y += GRAVITY * (1 / $Sprite.scale.x) * delta
