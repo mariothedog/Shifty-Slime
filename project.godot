@@ -64,10 +64,8 @@ restart={
 
 2d_physics/layer_1="Tiles"
 2d_physics/layer_2="Player"
-2d_physics/layer_3="Detectors"
-2d_physics/layer_4="Walls"
-2d_physics/layer_5="Slime Goal"
-2d_physics/layer_6="Spikes"
+2d_physics/layer_3="Slime Goal"
+2d_physics/layer_4="Spikes"
 
 [rendering]
 
