@@ -18,6 +18,8 @@ const EYE_MOVEMENT_LERP_WEIGHT = 0.3
 const DEAD_SPLIT_ANIM_DURATION = 0.1
 const MOVEMENT_ROTATION_DEGREES = 0.5
 const LANDING_EXPANDING_SCALE = 0.55
+const THANKS_FOR_PLAYING_FADE_IN_DURATION = 1.0
+const THANKS_FOR_PLAYING_FADE_OUT_DURATION = 1.0
 
 # Main variables
 var dead = false
@@ -40,6 +42,10 @@ var jump = false
 var elapsed_time = 0
 var was_on_floor_last_frame = false
 var impact_velocity = Vector2()
+
+func _ready():
+	$"Thanks for playing flash/Label".visible = false
+	global.player = self
 
 func _physics_process(delta) -> void:
 	if not dead:
@@ -283,3 +289,18 @@ func die():
 
 func _on_Spawning_Particles_Timer_timeout():
 	$"Spawn Particles".emitting = false
+
+func thanks_for_playing_fade():
+	$"Thanks for playing flash/Label".visible = true
+	
+	$Tween.interpolate_property($"Thanks for playing flash/Label", "modulate",
+	Color(1, 1, 1, 0), Color(1, 1, 1, 1), THANKS_FOR_PLAYING_FADE_IN_DURATION)
+	
+	$Tween.start()
+	
+	yield($Tween,"tween_completed")
+	
+	$Tween.interpolate_property(get_parent(), "modulate",
+	Color(1, 1, 1, 1), Color(1, 1, 1, 0), THANKS_FOR_PLAYING_FADE_OUT_DURATION)
+	
+	$Tween.start()

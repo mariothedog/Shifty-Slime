@@ -1,12 +1,18 @@
 extends Node
 
-var current_level = 4
+var current_level = 0
+
+var player
 
 func go_to_next_level():
-	current_level += 1
-	if current_level == 5:
+	if current_level == 4:
+		player.thanks_for_playing_fade()
+		
+		yield(player.get_node("Tween"), "tween_all_completed")
+		
 		go_to_main_menu()
 	else:
+		current_level += 1
 		restart_level()
 
 func restart_level():
