@@ -23,7 +23,7 @@ const LANDING_EXPANDING_SCALE = 0.55
 var dead = false
 
 # Movement variables
-var velocity = Vector2()
+var velocity := Vector2()
 
 # Expanding variables
 var scale_dir := Vector2()
@@ -245,7 +245,7 @@ func _animate() -> void:
 	$"Eyes/Left Eye Base/Pupil".position = lerp($"Eyes/Left Eye Base/Pupil".position, final_left_eye_pos, EYE_MOVEMENT_LERP_WEIGHT)
 	$"Eyes/Right Eye Base/Pupil".position = lerp($"Eyes/Right Eye Base/Pupil".position, final_right_eye_pos, EYE_MOVEMENT_LERP_WEIGHT)
 
-func kill():
+func die():
 	dead = true
 	
 	velocity.x = 0
