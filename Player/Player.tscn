@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
-[ext_resource path="res://Player/Art/Player.png" type="Texture" id=2]
+[ext_resource path="res://Player/Art/Player Right.png" type="Texture" id=2]
 [ext_resource path="res://Player/Art/Eye Base.png" type="Texture" id=3]
 [ext_resource path="res://Player/Art/Eye.png" type="Texture" id=4]
 [ext_resource path="res://Collectibles/Slime.png" type="Texture" id=5]
+[ext_resource path="res://Player/Art/Player Left.png" type="Texture" id=6]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.0892857, 0.728571, 1 )
@@ -42,8 +43,16 @@ position = Vector2( 0, -200 )
 current = true
 limit_left = 0
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprites" type="Node2D" parent="."]
 modulate = Color( 1, 1, 1, 0.862745 )
+
+[node name="Left Sprite" type="Sprite" parent="Sprites"]
+position = Vector2( -49, 0 )
+texture = ExtResource( 6 )
+offset = Vector2( 0, -75 )
+
+[node name="Right Sprite" type="Sprite" parent="Sprites"]
+position = Vector2( 48.5, 0 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -75 )
 
