@@ -6,14 +6,14 @@
 [ext_resource path="res://Player/Art/Eye.png" type="Texture" id=4]
 [ext_resource path="res://Collectibles/Slime.png" type="Texture" id=5]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.0892857, 0.728571, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="ParticlesMaterial" id=1]
+[sub_resource type="ParticlesMaterial" id=3]
 emission_shape = 1
 emission_sphere_radius = 115.0
 flag_disable_z = true
@@ -22,12 +22,13 @@ angular_velocity = 90.0
 angular_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-radial_accel = 200.0
+radial_accel = 300.0
+radial_accel_random = 0.1
 angle = 90.0
 angle_random = 1.0
 scale = 0.5
 scale_random = 0.1
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.01
 hue_variation_random = 0.05
 
@@ -133,5 +134,5 @@ texture = ExtResource( 4 )
 [node name="Spawn Particles" type="Particles2D" parent="."]
 position = Vector2( 0, -64 )
 amount = 30
-process_material = SubResource( 1 )
+process_material = SubResource( 3 )
 texture = ExtResource( 5 )
