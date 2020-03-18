@@ -8,10 +8,14 @@ var velocity := Vector2()
 
 var dead = false
 
-func _ready():
+var elapsed_time = 0
+
+func _ready() -> void:
 	velocity.x = SPEED * sign(rand_range(-1, 1))
 
-func _physics_process(delta):
+func _physics_process(delta) -> void:
+	elapsed_time += delta
+	
 	velocity.y += GRAVITY * delta
 	
 	if not dead:
@@ -20,14 +24,17 @@ func _physics_process(delta):
 		if $"Wall Detector".is_colliding():
 			velocity.x *= -1
 			$"Wall Detector".cast_to *= -1
+		
+		var scale = sin(10 * elapsed_time)/20
+		$Sprites.scale = Vector2(1 - scale, 1 + scale)
 
-func _on_Attack_Hitbox_body_entered(body):
+func _on_Attack_Hitbox_body_entered(body) -> void:
 	if body.get_node("Sprites").scale.y > 1.5:
 		_die()
 	else:
 		body.kill()
 
-func _die():
+func _die() -> void:
 	dead = true
 	
 	velocity.x = 0
