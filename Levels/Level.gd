@@ -10,4 +10,4 @@ func _ready():
 	$Player/Camera2D.limit_bottom = level_floor
 
 func _on_Slime_body_entered(_body):
-	global._go_to_next_level()
+	global.go_to_next_level()

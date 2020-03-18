@@ -22,6 +22,8 @@ var time_since_last_landing_anim = 0
 
 var elapsed_time = 0
 
+var dead = false
+
 onready var original_polygon = $CollisionPolygon2D.polygon
 onready var original_polygon_top = $"Detectors/Top Area2D/CollisionPolygon2D".polygon
 onready var original_polygon_left = $"Detectors/Left Area2D/Left".polygon
@@ -44,10 +46,11 @@ func _ready():
 	_update_raycasts()
 
 func _physics_process(delta):
-	scale_dir = Vector2(1, 1)
-	elapsed_time += delta
-	_get_input()
-	_update_collision_shapes()
+	if not dead:
+		scale_dir = Vector2(1, 1)
+		elapsed_time += delta
+		_get_input()
+		_update_collision_shapes()
 	_movement(delta)
 	_animate(delta)
 
@@ -83,8 +86,6 @@ func _get_input():
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 	
 	$Camera2D.position = lerp($Camera2D.position, Vector2(0, -200) * $Sprite.scale.y, 0.15)
-	
-	$Eyes.position.y = eyes_default_pos.y * $Sprite.scale.y
 	
 	# Moving
 	var input_vel_x = 0
@@ -130,7 +131,7 @@ func _get_input():
 			jump = true
 	
 	if Input.is_action_just_pressed("restart"):
-		global._restart_level()
+		global.restart_level()
 
 func _update_collision_shapes():
 	if stepify_vector($Sprite.scale, 0.01) != scale_dir: # So it's not unnecessarily run.
@@ -179,6 +180,8 @@ func _movement(delta):
 		velocity.y = -jump_speed * pow($Sprite.scale.x, 1.8)
 
 func _animate(delta):
+	$Eyes.position.y = eyes_default_pos.y * $Sprite.scale.y
+	
 	# Clamps it to inside the elliptic eye boundary
 	var final_left_eye_pos = ($"Eyes/Left Eye Base".get_local_mouse_position() / Vector2(20, 30)).clamped(1) * Vector2(20, 30)
 	var final_right_eye_pos = ($"Eyes/Right Eye Base".get_local_mouse_position() / Vector2(20, 30)).clamped(1) * Vector2(20, 30)
@@ -230,3 +233,10 @@ func _update_raycasts():
 
 func _on_Spawning_Particles_Timer_timeout():
 	$"Spawn Particles".emitting = false
+
+func kill():
+	dead = true
+	
+	# Play death animation
+	# TODO
+	global.restart_level()
