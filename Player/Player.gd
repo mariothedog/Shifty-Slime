@@ -42,9 +42,6 @@ onready var right_offset = Vector2(-texture_width/2, -texture_height/2)
 
 func _ready():
 	_update_raycasts()
-	
-	yield(get_tree().create_timer(0.5), "timeout")
-	$"Spawn Particles".emitting = false
 
 func _physics_process(delta):
 	scale_dir = Vector2(1, 1)
@@ -131,6 +128,9 @@ func _get_input():
 		jump_held = false
 		if not Input.is_action_pressed("shrink"):
 			jump = true
+	
+	if Input.is_action_just_pressed("restart"):
+		global._restart_level()
 
 func _update_collision_shapes():
 	if stepify_vector($Sprite.scale, 0.01) != scale_dir: # So it's not unnecessarily run.
@@ -227,3 +227,6 @@ func _update_raycasts():
 	if $Sprite.scale.x <= 0.6:
 		$"Detectors/Floor Detector/RayCast2D2".enabled = false
 		$"Detectors/Floor Detector/RayCast2D3".enabled = false
+
+func _on_Spawning_Particles_Timer_timeout():
+	$"Spawn Particles".emitting = false

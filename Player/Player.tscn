@@ -136,3 +136,9 @@ position = Vector2( 0, -64 )
 amount = 30
 process_material = SubResource( 3 )
 texture = ExtResource( 5 )
+
+[node name="Spawning Particles Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+[connection signal="timeout" from="Spawning Particles Timer" to="." method="_on_Spawning_Particles_Timer_timeout"]
