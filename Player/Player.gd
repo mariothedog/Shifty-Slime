@@ -204,6 +204,9 @@ func _animate(delta):
 	else:
 		time_since_last_landing_anim += delta
 	
+	$Sprite.scale.x = clamp($Sprite.scale.x, 0.01, 1.99)
+	$Sprite.scale.y = clamp($Sprite.scale.y, 0.01, 1.99)
+	
 	was_on_floor_last_frame = is_touching_floor
 
 func stepify_vector(vector, step):
