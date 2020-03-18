@@ -1,6 +1,6 @@
 extends Node
 
-var current_level = 0
+var current_level = 2
 
 func go_to_next_level():
 	current_level += 1

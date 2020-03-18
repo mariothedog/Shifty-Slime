@@ -4,9 +4,9 @@ const speed = 300
 const jump_speed = 400
 const expanding_scale = 0.7
 const landing_expanding_scale = 0.55
-const moving_rotation_normal = 2
+const moving_rotation_normal = 1
 const moving_rotation_short = 0.5
-const moving_rotation_tall = 4
+const moving_rotation_tall = 1.5
 const GRAVITY = 1200
 const death_split_anim_duration = 0.1
 
@@ -83,8 +83,9 @@ func _get_input():
 	if can_scale and not jump_held and not $Tween.is_active():
 		# Default animation
 		var scale = sin(3 * elapsed_time)/20
-		scale_dir.y = clamp(scale_dir.y + scale, 0.01, 1.99)
-		scale_dir.x = clamp(scale_dir.x - scale, 0.01, 1.99)
+		#scale_dir.y = clamp(scale_dir.y + scale, 0.1, 1.9)
+		#scale_dir.x = clamp(scale_dir.x - scale, 0.1, 1.9)
+		scale_dir += Vector2(-scale, scale)
 		
 		# Expand/shrink the player
 		$Sprites.scale = lerp($Sprites.scale, scale_dir, 0.15)
@@ -196,8 +197,8 @@ func _animate(delta):
 		
 		# Landing animation
 		if not was_on_floor_last_frame and is_touching_floor and impact_velocity.y > 400 and not $Tween.is_active() and time_since_last_landing_anim > 0.4:
-			var final_scale = Vector2(1 + clamp(landing_expanding_scale * impact_velocity.y / 1400, 0.1, 0.9),
-			1 - clamp(landing_expanding_scale * impact_velocity.y / 1400, 0.1, 0.9))
+			var final_scale = Vector2(clamp(1 + landing_expanding_scale * impact_velocity.y / 1400, 0.01, 1.99),
+			clamp(1 - landing_expanding_scale * impact_velocity.y / 1400, 0.3, 1.99))
 			
 			if $Sprites.scale.y < final_scale.y:
 				final_scale = Vector2($Sprites.scale.x + 0.15, $Sprites.scale.y - 0.15)
@@ -211,9 +212,6 @@ func _animate(delta):
 			time_since_last_landing_anim = 0
 		else:
 			time_since_last_landing_anim += delta
-	
-	$Sprites.scale.x = clamp($Sprites.scale.x, 0.01, 1.99)
-	$Sprites.scale.y = clamp($Sprites.scale.y, 0.01, 1.99)
 	
 	was_on_floor_last_frame = is_touching_floor
 
