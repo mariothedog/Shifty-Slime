@@ -84,6 +84,7 @@ func _get_expanding_input() -> void:
 func _get_jump_input() -> void:
 	jump = false
 	if Input.is_action_pressed("jump"):
+		$Tween.remove_all()
 		jump_held = true
 		scale_dir = Vector2(1 + EXPANDING_SCALE, 1 - EXPANDING_SCALE)
 	
