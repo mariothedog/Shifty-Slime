@@ -79,9 +79,9 @@ func _get_input():
 	if can_scale and not jump_held and not $Tween.is_active():
 		# Default animation
 		var scale = sin(3 * elapsed_time)/20
-		scale_dir.y += scale
-		scale_dir.x -= scale
-	
+		scale_dir.y = clamp(scale_dir.y + scale, 0.01, 1.99)
+		scale_dir.x = clamp(scale_dir.x - scale, 0.01, 1.99)
+		
 		# Expand/shrink the player
 		$Sprite.scale = lerp($Sprite.scale, scale_dir, 0.15)
 	
@@ -205,7 +205,7 @@ func _animate(delta):
 		time_since_last_landing_anim += delta
 	
 	was_on_floor_last_frame = is_touching_floor
-	
+
 func stepify_vector(vector, step):
 	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
 
