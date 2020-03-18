@@ -1,1 +1,3 @@
-Font: https://fonts.google.com/specimen/Baloo+Chettan+2
+Fonts:
+https://fonts.google.com/specimen/Baloo+Chettan+2
+https://fonts.google.com/specimen/Creepster
