@@ -128,4 +128,3 @@ position = Vector2( 832, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 7 )]
 position = Vector2( 500, 336 )
-[connection signal="body_entered" from="Slime" to="." method="_on_Slime_body_entered"]
