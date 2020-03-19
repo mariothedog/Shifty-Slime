@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Art/Player Right.png" type="Texture" id=2]
@@ -8,15 +8,17 @@
 [ext_resource path="res://Player/Art/Player Left.png" type="Texture" id=6]
 [ext_resource path="res://Fonts/BalooChettan2-Medium.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://Player/SFX/Slime Splash.wav" type="AudioStream" id=8]
+[ext_resource path="res://Player/SFX/Slime Die.wav" type="AudioStream" id=9]
+[ext_resource path="res://Player/SFX/Slime Jump.wav" type="AudioStream" id=10]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.0696721, 0.783465, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="ParticlesMaterial" id=1]
+[sub_resource type="ParticlesMaterial" id=3]
 emission_shape = 1
 emission_sphere_radius = 115.0
 flag_disable_z = true
@@ -31,7 +33,7 @@ angle = 90.0
 angle_random = 1.0
 scale = 0.5
 scale_random = 0.1
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.03
 hue_variation_random = 0.1
 
@@ -133,7 +135,7 @@ texture = ExtResource( 4 )
 position = Vector2( 0, -64 )
 amount = 30
 lifetime = 0.7
-process_material = SubResource( 1 )
+process_material = SubResource( 3 )
 texture = ExtResource( 5 )
 
 [node name="Spawning Particles Timer" type="Timer" parent="."]
@@ -164,4 +166,10 @@ __meta__ = {
 
 [node name="Slime Splash SFX" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 8 )
+
+[node name="Slime Die SFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+
+[node name="Slime Jump SFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 10 )
 [connection signal="timeout" from="Spawning Particles Timer" to="." method="_on_Spawning_Particles_Timer_timeout"]

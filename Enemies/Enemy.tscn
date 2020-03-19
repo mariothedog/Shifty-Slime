@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Enemies/Art/Enemy Left.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Art/Enemy Right.png" type="Texture" id=2]
 [ext_resource path="res://Enemies/Enemy.gd" type="Script" id=3]
+[ext_resource path="res://Player/SFX/Slime Die.wav" type="AudioStream" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 64.0
@@ -40,4 +41,7 @@ enabled = true
 cast_to = Vector2( 70, 0 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Enemy Die SFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
 [connection signal="body_entered" from="Attack Hitbox" to="." method="_on_Attack_Hitbox_body_entered"]

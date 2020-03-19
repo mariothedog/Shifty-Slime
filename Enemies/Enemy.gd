@@ -11,7 +11,9 @@ var dead = false
 var elapsed_time = 0
 
 func _ready() -> void:
-	velocity.x = SPEED * sign(rand_range(-1, 1))
+	var dir = sign(rand_range(-1, 1))
+	velocity.x = SPEED * dir
+	$"Wall Detector".cast_to *= dir
 
 func _physics_process(delta) -> void:
 	elapsed_time += delta
@@ -32,12 +34,14 @@ func _on_Attack_Hitbox_body_entered(body) -> void:
 	if body.get_node("Sprites").scale.y > 1.5:
 		_die()
 	else:
-		body.kill()
+		body.die()
 
 func _die() -> void:
 	dead = true
 	
 	velocity.x = 0
+	
+	$"Enemy Die SFX".play()
 	
 	$CollisionPolygon2D.set_deferred("disabled", true)
 	$"Attack Hitbox/CollisionShape2D".set_deferred("disabled", true)

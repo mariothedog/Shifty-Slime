@@ -17,6 +17,7 @@ _global_script_class_icons={
 
 config/name="Shifty Slime"
 run/main_scene="res://UI/Main Menu.tscn"
+boot_splash/image="res://Boot Splash.png"
 config/icon="res://icon.png"
 
 [autoload]

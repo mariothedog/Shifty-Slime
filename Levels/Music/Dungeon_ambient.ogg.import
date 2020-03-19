@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Dungeon_ambient.ogg-164ff88f5cacefe1f0ef437a880c0cd2.oggstr"
+
+[deps]
+
+source_file="res://Levels/Music/Dungeon_ambient.ogg"
+dest_files=[ "res://.import/Dungeon_ambient.ogg-164ff88f5cacefe1f0ef437a880c0cd2.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

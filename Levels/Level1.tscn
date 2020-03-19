@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
+[ext_resource path="res://Levels/Music/Dungeon_ambient.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Fonts/BalooChettan2-Medium.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Tiles/Ground.png" type="Texture" id=3]
 [ext_resource path="res://Collectibles/Slime.tscn" type="PackedScene" id=4]
@@ -37,6 +38,70 @@ points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
 size = 32
 font_data = ExtResource( 2 )
 
+[sub_resource type="Animation" id=4]
+resource_name = "Fade Out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("TileMap:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Tutorial Text:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Slime:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Spikes:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
 [node name="Level1" type="Node2D"]
 script = ExtResource( 5 )
 
@@ -69,10 +134,10 @@ __meta__ = {
 }
 
 [node name="How gravity works" type="Label" parent="Tutorial Text"]
-margin_left = 1085.0
-margin_top = -417.0
-margin_right = 1609.0
-margin_bottom = -370.0
+margin_left = 1092.0
+margin_top = -291.0
+margin_right = 1616.0
+margin_bottom = -244.0
 custom_fonts/font = SubResource( 3 )
 text = "The flatter you are the slower you fall."
 __meta__ = {
@@ -128,3 +193,10 @@ position = Vector2( 832, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 7 )]
 position = Vector2( 500, 336 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/Fade Out" = SubResource( 4 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+autoplay = true

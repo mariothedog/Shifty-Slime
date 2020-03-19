@@ -21,6 +21,11 @@ const LANDING_EXPANDING_SCALE = 0.55
 const THANKS_FOR_PLAYING_FADE_IN_DURATION = 1.0
 const THANKS_FOR_PLAYING_FADE_OUT_DURATION = 1.0
 
+# Audio constants
+const SLIME_SPLASH_VOLUME = -30
+const SLIME_DIE_VOLUME = -20
+const SLIME_JUMP_VOLUME = -15
+
 # Main variables
 var dead = false
 
@@ -46,6 +51,8 @@ var impact_velocity = Vector2()
 func _ready():
 	$"Thanks for playing flash/Label".visible = false
 	global.player = self
+	
+	$"Slime Die SFX".volume_db = SLIME_DIE_VOLUME
 
 func _physics_process(delta) -> void:
 	if not dead:
@@ -80,7 +87,6 @@ func _get_expanding_input() -> void:
 	scale_dir = Vector2.ONE
 	
 	if Input.is_action_pressed("expand_up"):
-		$Tween.remove_all()
 		scale_dir += Vector2(-EXPANDING_SCALE, EXPANDING_SCALE)
 	
 	if Input.is_action_pressed("shrink"):
@@ -194,6 +200,10 @@ func _is_player_on_floor() -> bool:
 	return false
 
 func _jump() -> void:
+	$"Slime Jump SFX".volume_db = SLIME_JUMP_VOLUME * $Sprites.scale.y
+	
+	$"Slime Jump SFX".play()
+	
 	velocity.y = -JUMP_SPEED * (1/$Sprites.scale.y)
 
 func _animate() -> void:
@@ -204,11 +214,11 @@ func _animate() -> void:
 		return
 	
 	# Landing animation
-	if not was_on_floor_last_frame and _is_player_on_floor():
-		$"Slime Splash SFX".volume_db = impact_velocity.y / 100
+	if not was_on_floor_last_frame and _is_player_on_floor() and not $Tween.is_active() and impact_velocity.y > 100:
+		$"Slime Splash SFX".volume_db = impact_velocity.y / 100 + SLIME_SPLASH_VOLUME
 		$"Slime Splash SFX".play()
 		
-		if impact_velocity.y > 400 and not $Tween.is_active():
+		if impact_velocity.y > 400:
 			var final_scale = Vector2(clamp(1 + LANDING_EXPANDING_SCALE * impact_velocity.y / 1400, 0.01, 1.99),
 			clamp(1 - LANDING_EXPANDING_SCALE * impact_velocity.y / 1400, 0.3, 1.99))
 			
@@ -256,40 +266,43 @@ func _animate() -> void:
 	$"Eyes/Right Eye Base/Pupil".position = lerp($"Eyes/Right Eye Base/Pupil".position, final_right_eye_pos, EYE_MOVEMENT_LERP_WEIGHT)
 
 func die():
-	dead = true
-	
-	velocity.x = 0
-	
-	# Play death animation
-	$Tween.interpolate_property($"Sprites/Left", "position",
-	$Sprites/Left.position, $Sprites/Left.position + Vector2(-25, 0),
-	DEAD_SPLIT_ANIM_DURATION, Tween.TRANS_BACK, Tween.EASE_OUT, 0.05)
-	$Tween.start()
-	
-	$Tween.interpolate_property($"Sprites/Right", "position",
-	$Sprites/Right.position, $Sprites/Right.position + Vector2(25, 0),
-	DEAD_SPLIT_ANIM_DURATION, Tween.TRANS_BACK, Tween.EASE_OUT, 0.05)
-	$Tween.start()
-	
-	$Tween.interpolate_property($"Eyes/Left Eye Base", "position",
-	$"Eyes/Left Eye Base".position, $"Eyes/Left Eye Base".position + Vector2(-25, 0) * ($Sprites.scale.x * 0.9),
-	DEAD_SPLIT_ANIM_DURATION, Tween.TRANS_BACK, Tween.EASE_OUT, 0.05)
-	$Tween.start()
-	
-	$Tween.interpolate_property($"Eyes/Right Eye Base", "position",
-	$"Eyes/Right Eye Base".position, $"Eyes/Right Eye Base".position + Vector2(25, 0) * ($Sprites.scale.x * 0.9),
-	DEAD_SPLIT_ANIM_DURATION, Tween.TRANS_BACK, Tween.EASE_OUT, 0.05)
-	$Tween.start()
-	
-	yield($Tween, "tween_all_completed")
-	
-	$Tween.interpolate_property(self, "modulate",
-	modulate, Color(1, 1, 1, 0), 1)
-	$Tween.start()
-	
-	yield($Tween, "tween_all_completed")
-	
-	global.restart_level()
+	if not dead:
+		dead = true
+		
+		velocity.x = 0
+		
+		$"Slime Die SFX".play()
+		
+		# Play death animation
+		$Tween.interpolate_property($"Sprites/Left", "position",
+		$Sprites/Left.position, $Sprites/Left.position + Vector2(-25, 0),
+		DEAD_SPLIT_ANIM_DURATION, Tween.TRANS_BACK, Tween.EASE_OUT, 0.05)
+		$Tween.start()
+		
+		$Tween.interpolate_property($"Sprites/Right", "position",
+		$Sprites/Right.position, $Sprites/Right.position + Vector2(25, 0),
+		DEAD_SPLIT_ANIM_DURATION, Tween.TRANS_BACK, Tween.EASE_OUT, 0.05)
+		$Tween.start()
+		
+		$Tween.interpolate_property($"Eyes/Left Eye Base", "position",
+		$"Eyes/Left Eye Base".position, $"Eyes/Left Eye Base".position + Vector2(-25, 0) * ($Sprites.scale.x * 0.9),
+		DEAD_SPLIT_ANIM_DURATION, Tween.TRANS_BACK, Tween.EASE_OUT, 0.05)
+		$Tween.start()
+		
+		$Tween.interpolate_property($"Eyes/Right Eye Base", "position",
+		$"Eyes/Right Eye Base".position, $"Eyes/Right Eye Base".position + Vector2(25, 0) * ($Sprites.scale.x * 0.9),
+		DEAD_SPLIT_ANIM_DURATION, Tween.TRANS_BACK, Tween.EASE_OUT, 0.05)
+		$Tween.start()
+		
+		yield($Tween, "tween_all_completed")
+		
+		$Tween.interpolate_property(self, "modulate",
+		modulate, Color(1, 1, 1, 0), 1)
+		$Tween.start()
+		
+		yield($Tween, "tween_all_completed")
+		
+		global.restart_level()
 
 func _on_Spawning_Particles_Timer_timeout():
 	$"Spawn Particles".emitting = false
