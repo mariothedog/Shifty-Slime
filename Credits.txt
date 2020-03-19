@@ -1,3 +1,6 @@
 Fonts:
 https://fonts.google.com/specimen/Baloo+Chettan+2
 https://fonts.google.com/specimen/Creepster
+
+Audio:
+https://opengameart.org/content/40-cc0-water-splash-slime-sfx

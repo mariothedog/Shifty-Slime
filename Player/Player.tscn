@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Art/Player Right.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Collectibles/Slime.png" type="Texture" id=5]
 [ext_resource path="res://Player/Art/Player Left.png" type="Texture" id=6]
 [ext_resource path="res://Fonts/BalooChettan2-Medium.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Player/SFX/Slime Splash.wav" type="AudioStream" id=8]
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.0696721, 0.783465, 1 )
@@ -160,4 +161,7 @@ text = "Thanks for playing! :)"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Slime Splash SFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
 [connection signal="timeout" from="Spawning Particles Timer" to="." method="_on_Spawning_Particles_Timer_timeout"]

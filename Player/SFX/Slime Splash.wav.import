@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Slime Splash.wav-cac1180435d0bb690393e7058c5c7560.sample"
+
+[deps]
+
+source_file="res://Player/SFX/Slime Splash.wav"
+dest_files=[ "res://.import/Slime Splash.wav-cac1180435d0bb690393e7058c5c7560.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

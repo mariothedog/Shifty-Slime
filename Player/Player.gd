@@ -204,30 +204,34 @@ func _animate() -> void:
 		return
 	
 	# Landing animation
-	if not was_on_floor_last_frame and _is_player_on_floor() and impact_velocity.y > 400 and not $Tween.is_active():
-		var final_scale = Vector2(clamp(1 + LANDING_EXPANDING_SCALE * impact_velocity.y / 1400, 0.01, 1.99),
-		clamp(1 - LANDING_EXPANDING_SCALE * impact_velocity.y / 1400, 0.3, 1.99))
+	if not was_on_floor_last_frame and _is_player_on_floor():
+		$"Slime Splash SFX".volume_db = impact_velocity.y / 100
+		$"Slime Splash SFX".play()
 		
-		if $Sprites.scale.y < final_scale.y:
-			final_scale = Vector2($Sprites.scale.x + 0.15, $Sprites.scale.y - 0.15)
-		
-		$Tween.interpolate_property($Sprites, "scale", $Sprites.scale,
-		Vector2($Sprites.scale.x, final_scale.y), 200/impact_velocity.y,
-		Tween.TRANS_BOUNCE, Tween.EASE_OUT)
-		
-		$Tween.start()
-		
-		$Tween.interpolate_property($Sprites/Left, "scale", $Sprites/Left.scale,
-		Vector2(final_scale.x, $Sprites/Left.scale.y), 200/impact_velocity.y,
-		Tween.TRANS_BOUNCE, Tween.EASE_OUT)
-		
-		$Tween.start()
-		
-		$Tween.interpolate_property($Sprites/Right, "scale", $Sprites/Right.scale,
-		Vector2(final_scale.x, $Sprites/Right.scale.y), 200/impact_velocity.y,
-		Tween.TRANS_BOUNCE, Tween.EASE_OUT)
-		
-		$Tween.start()
+		if impact_velocity.y > 400 and not $Tween.is_active():
+			var final_scale = Vector2(clamp(1 + LANDING_EXPANDING_SCALE * impact_velocity.y / 1400, 0.01, 1.99),
+			clamp(1 - LANDING_EXPANDING_SCALE * impact_velocity.y / 1400, 0.3, 1.99))
+			
+			if $Sprites.scale.y < final_scale.y:
+				final_scale = Vector2($Sprites.scale.x + 0.15, $Sprites.scale.y - 0.15)
+			
+			$Tween.interpolate_property($Sprites, "scale", $Sprites.scale,
+			Vector2($Sprites.scale.x, final_scale.y), 200/impact_velocity.y,
+			Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+			
+			$Tween.start()
+			
+			$Tween.interpolate_property($Sprites/Left, "scale", $Sprites/Left.scale,
+			Vector2(final_scale.x, $Sprites/Left.scale.y), 200/impact_velocity.y,
+			Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+			
+			$Tween.start()
+			
+			$Tween.interpolate_property($Sprites/Right, "scale", $Sprites/Right.scale,
+			Vector2(final_scale.x, $Sprites/Right.scale.y), 200/impact_velocity.y,
+			Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+			
+			$Tween.start()
 	
 	was_on_floor_last_frame = _is_player_on_floor()
 	
