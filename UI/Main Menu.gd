@@ -1,4 +1,4 @@
 extends Control
 
-func _on_Button_pressed():
+func _on_Play_pressed():
 	global.restart_level()
